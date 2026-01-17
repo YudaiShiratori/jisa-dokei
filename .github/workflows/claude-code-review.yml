@@ -1,79 +1,81 @@
-name: Claude Code Review
+# Claude Code Review - Currently disabled
+# Uncomment below to enable automatic PR reviews using Claude
 
-on:
-  pull_request:
-    types: [opened, synchronize]
-    # Optional: Only run on specific file changes
-    # paths:
-    #   - "src/**/*.ts"
-    #   - "src/**/*.tsx"
-    #   - "src/**/*.js"
-    #   - "src/**/*.jsx"
+# name: Claude Code Review
 
-jobs:
-  claude-review:
-    # Optional: Filter by PR author
-    # if: |
-    #   github.event.pull_request.user.login == 'external-contributor' ||
-    #   github.event.pull_request.user.login == 'new-developer' ||
-    #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
-    
-    # Skip review for certain conditions
-    if: |
-      !contains(github.event.pull_request.title, '[skip-review]') &&
-      !contains(github.event.pull_request.title, '[WIP]')
-    
-    runs-on: ubuntu-latest
-    # Permissions for the job - extended for Claude to perform reviews and writes
-    permissions:
-      contents: read
-      pull-requests: write  # Enable writing reviews and comments on PRs
-      issues: read
-      id-token: write
-    
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+# on:
+#   pull_request:
+#     types: [opened, synchronize]
+#     # Optional: Only run on specific file changes
+#     # paths:
+#     #   - "src/**/*.ts"
+#     #   - "src/**/*.tsx"
+#     #   - "src/**/*.js"
+#     #   - "src/**/*.jsx"
 
-      - name: Run Claude Code Review
-        id: claude-review
-        uses: anthropics/claude-code-action@beta
-        with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+# jobs:
+#   claude-review:
+#     # Optional: Filter by PR author
+#     # if: |
+#     #   github.event.pull_request.user.login == 'external-contributor' ||
+#     #   github.event.pull_request.user.login == 'new-developer' ||
+#     #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
 
-          # Specify model if needed (uncomment to use a different model)
-          # model: "claude-opus-4-20250514"
+#     # Skip review for certain conditions
+#     if: |
+#       !contains(github.event.pull_request.title, '[skip-review]') &&
+#       !contains(github.event.pull_request.title, '[WIP]')
 
-          # Direct prompt for automated review, customized for project needs
-          direct_prompt: |
-            Review this pull request focusing on:
-            - Code quality, best practices, and adherence to project coding rules (understandability, naming, comments, formatting)
-            - Potential bugs, performance issues, security concerns
-            - Test coverage and suggestions for unit tests using Vitest
-            - UI/UX alignment with design guidelines (clarity, consistency, accessibility)
-            - Proper use of bun, shadcn/ui, Biome linter
-            - Suggestions for improvements or refactoring
-            Be constructive, reference specific lines, and suggest code changes if appropriate.
+#     runs-on: ubuntu-latest
+#     # Permissions for the job - extended for Claude to perform reviews and writes
+#     permissions:
+#       contents: read
+#       pull-requests: write  # Enable writing reviews and comments on PRs
+#       issues: read
+#       id-token: write
 
-          # Enable sticky comments for ongoing reviews
-          use_sticky_comment: true
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 1
 
-          # Allow Claude to run project-specific commands for verification
-          allowed_tools: "Bash(bun run test:*),Bash(bun run check:*),Bash(bun run check:write),Bash(bun run check:unsafe),Bash(bun run build),Bash(bun run typecheck),Bash(ls:*),Bash(cat:*),Bash(find:*),Bash(grep:*),Bash(git diff:*),Bash(git status:*),Bash(git log:*),Bash(echo:*),Bash(mkdir:*),Bash(touch:*),Bash(mv:*),Bash(cp:*)"
+#       - name: Run Claude Code Review
+#         id: claude-review
+#         uses: anthropics/claude-code-action@beta
+#         with:
+#           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
-          # Optional: Customize review based on file types
-          # direct_prompt: |
-          #   Review this PR focusing on:
-          #   - For TypeScript files: Type safety and proper interface usage
-          #   - For API endpoints: Security, input validation, and error handling
-          #   - For React components: Performance, accessibility, and best practices
-          #   - For tests: Coverage, edge cases, and test quality
-          
-          # Optional: Different prompts for different authors
-          # direct_prompt: |
-          #   ${{ github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR' && 
-          #   'Welcome! Please review this PR from a first-time contributor. Be encouraging and provide detailed explanations for any suggestions.' ||
-          #   'Please provide a thorough code review focusing on our coding standards and best practices.' }}
+#           # Specify model if needed (uncomment to use a different model)
+#           # model: "claude-opus-4-20250514"
 
+#           # Direct prompt for automated review, customized for project needs
+#           direct_prompt: |
+#             Review this pull request focusing on:
+#             - Code quality, best practices, and adherence to project coding rules (understandability, naming, comments, formatting)
+#             - Potential bugs, performance issues, security concerns
+#             - Test coverage and suggestions for unit tests using Vitest
+#             - UI/UX alignment with design guidelines (clarity, consistency, accessibility)
+#             - Proper use of bun, shadcn/ui, Biome linter
+#             - Suggestions for improvements or refactoring
+#             Be constructive, reference specific lines, and suggest code changes if appropriate.
+
+#           # Enable sticky comments for ongoing reviews
+#           use_sticky_comment: true
+
+#           # Allow Claude to run project-specific commands for verification
+#           allowed_tools: "Bash(bun run test:*),Bash(bun run check:*),Bash(bun run check:write),Bash(bun run check:unsafe),Bash(bun run build),Bash(bun run typecheck),Bash(ls:*),Bash(cat:*),Bash(find:*),Bash(grep:*),Bash(git diff:*),Bash(git status:*),Bash(git log:*),Bash(echo:*),Bash(mkdir:*),Bash(touch:*),Bash(mv:*),Bash(cp:*)"
+
+#           # Optional: Customize review based on file types
+#           # direct_prompt: |
+#           #   Review this PR focusing on:
+#           #   - For TypeScript files: Type safety and proper interface usage
+#           #   - For API endpoints: Security, input validation, and error handling
+#           #   - For React components: Performance, accessibility, and best practices
+#           #   - For tests: Coverage, edge cases, and test quality
+
+#           # Optional: Different prompts for different authors
+#           # direct_prompt: |
+#           #   ${{ github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR' &&
+#           #   'Welcome! Please review this PR from a first-time contributor. Be encouraging and provide detailed explanations for any suggestions.' ||
+#           #   'Please provide a thorough code review focusing on our coding standards and best practices.' }}

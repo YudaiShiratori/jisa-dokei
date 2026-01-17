@@ -1,5 +1,0 @@
-pre-commit:
-  jobs:
-    - run: bun run check:write
-      stage_fixed: true
-    - run: bun run typecheck
