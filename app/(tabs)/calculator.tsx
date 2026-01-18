@@ -1,8 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 import { useMemo, useState } from "react";
 import {
   FlatList,
   Modal,
+  Platform,
   Pressable,
   Text,
   TextInput,
@@ -123,6 +125,9 @@ export default function CalculatorScreen() {
   const timeDiff = useTimeDifference(city1.timezone, city2.timezone);
 
   const swapCities = () => {
+    if (Platform.OS !== "web") {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
     const temp = city1;
     setCity1(city2);
     setCity2(temp);
@@ -155,12 +160,19 @@ export default function CalculatorScreen() {
             </View>
           </Card>
 
-          <View className="items-center my-2">
+          <View className="items-center my-4">
             <Pressable
               onPress={swapCities}
-              className="bg-primary-500 rounded-full p-3 active:opacity-80"
+              className="bg-primary-500 rounded-full p-4 active:bg-primary-600 shadow-lg"
+              style={{
+                shadowColor: "#0ea5e9",
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+                elevation: 8,
+              }}
             >
-              <Ionicons name="swap-vertical" size={24} color="white" />
+              <Ionicons name="swap-vertical" size={28} color="white" />
             </Pressable>
           </View>
 

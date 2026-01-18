@@ -1,9 +1,17 @@
 import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useMemo, useState } from "react";
-import { FlatList, Pressable, Text, TextInput, View } from "react-native";
+import {
+  FlatList,
+  Platform,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { CITIES } from "@/lib/cities";
+import { CITIES, type City } from "@/lib/cities";
 import { useCitiesStore } from "@/store/cities";
 
 // Sort cities by country name for easier browsing
@@ -31,9 +39,62 @@ export default function AddCityScreen() {
   const existingCityIds = cities.map((c) => c.id);
 
   const handleAddCity = (cityId: string) => {
+    if (Platform.OS !== "web") {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    }
     addCity(cityId);
     router.back();
   };
+
+  const renderCity = ({ item }: { item: City }) => {
+    const isAdded = existingCityIds.includes(item.id);
+    return (
+      <Pressable
+        onPress={() => !isAdded && handleAddCity(item.id)}
+        disabled={isAdded}
+        className={`flex-row items-center py-4 px-4 border-b border-secondary-800 ${
+          isAdded ? "opacity-50" : "active:bg-secondary-800"
+        }`}
+      >
+        <Text className="text-2xl mr-3">{item.flag}</Text>
+        <View className="flex-1">
+          <Text className="text-base font-medium text-white">{item.name}</Text>
+          <Text className="text-sm text-secondary-400">
+            {item.country} • {item.nameEn}
+          </Text>
+        </View>
+        {isAdded ? (
+          <View className="flex-row items-center">
+            <Ionicons name="checkmark-circle" size={24} color="#0ea5e9" />
+            <Text className="ml-2 text-primary-500 font-medium">追加済み</Text>
+          </View>
+        ) : (
+          <Ionicons name="add-circle-outline" size={24} color="#94a3b8" />
+        )}
+      </Pressable>
+    );
+  };
+
+  const EmptyState = () => (
+    <View className="items-center py-16 px-8">
+      <View className="bg-secondary-800 rounded-full p-4 mb-4">
+        <Ionicons name="search" size={48} color="#64748b" />
+      </View>
+      <Text className="text-white text-lg font-semibold mb-2">
+        都市が見つかりません
+      </Text>
+      <Text className="text-secondary-400 text-center mb-6 leading-5">
+        「{searchQuery}」に一致する都市が{"\n"}見つかりませんでした
+      </Text>
+      <View className="bg-secondary-800 rounded-xl p-4">
+        <Text className="text-secondary-400 text-sm mb-2">検索のヒント:</Text>
+        <Text className="text-secondary-300 text-sm">
+          • 都市名: 東京、London{"\n"}• 国名: 日本、France{"\n"}• 英語名:
+          Tokyo、Paris
+        </Text>
+      </View>
+    </View>
+  );
 
   return (
     <SafeAreaView className="flex-1 bg-secondary-900" edges={["bottom"]}>
@@ -61,48 +122,13 @@ export default function AddCityScreen() {
 
       <FlatList
         data={filteredCities}
+        renderItem={renderCity}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingHorizontal: 16 }}
-        renderItem={({ item }) => {
-          const isAdded = existingCityIds.includes(item.id);
-          return (
-            <Pressable
-              onPress={() => !isAdded && handleAddCity(item.id)}
-              disabled={isAdded}
-              className={`flex-row items-center py-4 border-b border-secondary-800 ${
-                isAdded ? "opacity-50" : "active:bg-secondary-800"
-              }`}
-            >
-              <Text className="text-2xl mr-3">{item.flag}</Text>
-              <View className="flex-1">
-                <Text className="text-base font-medium text-white">
-                  {item.name}
-                </Text>
-                <Text className="text-sm text-secondary-400">
-                  {item.country} • {item.nameEn}
-                </Text>
-              </View>
-              {isAdded ? (
-                <View className="flex-row items-center">
-                  <Ionicons name="checkmark-circle" size={24} color="#0ea5e9" />
-                  <Text className="ml-2 text-primary-500 font-medium">
-                    追加済み
-                  </Text>
-                </View>
-              ) : (
-                <Ionicons name="add-circle-outline" size={24} color="#94a3b8" />
-              )}
-            </Pressable>
-          );
-        }}
-        ListEmptyComponent={
-          <View className="items-center py-12">
-            <Ionicons name="search-outline" size={48} color="#94a3b8" />
-            <Text className="text-secondary-400 mt-4 text-center">
-              「{searchQuery}」に一致する都市が{"\n"}見つかりませんでした
-            </Text>
-          </View>
-        }
+        ListEmptyComponent={EmptyState}
+        initialNumToRender={30}
+        maxToRenderPerBatch={20}
+        windowSize={10}
+        removeClippedSubviews={true}
       />
     </SafeAreaView>
   );
