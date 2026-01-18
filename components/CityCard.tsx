@@ -30,11 +30,11 @@ export function CityCard({
               <Text className="text-xl font-semibold text-white">
                 {city.name}
               </Text>
-              <Text className="text-sm text-secondary-400">{city.country}</Text>
+              <Text className="text-sm text-secondary-300">{city.country}</Text>
             </View>
           </View>
           <View className="flex-row items-center">
-            <Text className="text-sm text-secondary-500">{date}</Text>
+            <Text className="text-sm text-secondary-300">{date}</Text>
             {timeDiff.isNextDay && (
               <View className="ml-2 bg-primary-500/20 px-2.5 py-1 rounded-full">
                 <Text className="text-xs font-medium text-primary-400">

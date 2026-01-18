@@ -18,6 +18,16 @@ const DEFAULT_CITIES: UserCity[] = [
     order: 0,
     addedAt: new Date(),
   },
+  {
+    ...CITIES.find((c) => c.id === "new-york")!,
+    order: 1,
+    addedAt: new Date(),
+  },
+  {
+    ...CITIES.find((c) => c.id === "barcelona")!,
+    order: 2,
+    addedAt: new Date(),
+  },
 ];
 
 export const useCitiesStore = create<CitiesState>()(

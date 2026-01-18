@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { Link } from "expo-router";
-import { Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CityCard } from "@/components/CityCard";
 import { DigitalClock } from "@/components/DigitalClock";
@@ -13,15 +13,11 @@ export default function HomeScreen() {
   const { localTimezone } = useSettingsStore();
 
   const handleAddPress = () => {
-    if (Platform.OS !== "web") {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    }
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
   const handleRemoveCity = (cityId: string) => {
-    if (Platform.OS !== "web") {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-    }
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
     removeCity(cityId);
   };
 
@@ -29,7 +25,7 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1 bg-secondary-900" edges={["left", "right"]}>
       <ScrollView className="flex-1 px-4">
         <View className="py-8 items-center border-b border-secondary-700 mb-8">
-          <Text className="text-secondary-500 text-xs uppercase tracking-wider mb-2">
+          <Text className="text-secondary-300 text-xs uppercase tracking-wider mb-2">
             現在の時刻
           </Text>
           <DigitalClock timezone={localTimezone} size="xl" />
@@ -65,7 +61,7 @@ export default function HomeScreen() {
             <Text className="text-white text-xl font-semibold mb-2">
               世界中の時刻をチェック
             </Text>
-            <Text className="text-secondary-400 text-center mb-8 leading-6">
+            <Text className="text-secondary-300 text-center mb-8 leading-6">
               気になる都市を追加して{"\n"}いつでも現地時刻を確認できます
             </Text>
             <Link href="/add-city" asChild>
