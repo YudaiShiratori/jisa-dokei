@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { useMemo, useState } from "react";
 import { FlatList, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { CITIES, searchCities } from "@/lib/cities";
+import { CITIES } from "@/lib/cities";
 import { useCitiesStore } from "@/store/cities";
 
 // Sort cities by country name for easier browsing
@@ -16,10 +16,16 @@ export default function AddCityScreen() {
   const { cities, addCity } = useCitiesStore();
 
   const filteredCities = useMemo(() => {
-    if (searchQuery) {
-      return searchCities(searchQuery);
+    if (!searchQuery.trim()) {
+      return sortedCities;
     }
-    return sortedCities;
+    const query = searchQuery.toLowerCase().trim();
+    return sortedCities.filter(
+      (city) =>
+        city.name.toLowerCase().includes(query) ||
+        city.nameEn.toLowerCase().includes(query) ||
+        city.country.toLowerCase().includes(query),
+    );
   }, [searchQuery]);
 
   const existingCityIds = cities.map((c) => c.id);
@@ -36,7 +42,7 @@ export default function AddCityScreen() {
           <Ionicons name="search" size={20} color="#64748b" />
           <TextInput
             className="flex-1 ml-3 text-base text-white"
-            placeholder="都市名で検索..."
+            placeholder="都市名・国名で検索..."
             placeholderTextColor="#94a3b8"
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -48,16 +54,15 @@ export default function AddCityScreen() {
             </Pressable>
           )}
         </View>
+        <Text className="text-secondary-500 text-xs mt-2 ml-1">
+          {filteredCities.length}件の都市
+        </Text>
       </View>
 
       <FlatList
         data={filteredCities}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingHorizontal: 16 }}
-        initialNumToRender={30}
-        maxToRenderPerBatch={20}
-        windowSize={10}
-        removeClippedSubviews={true}
         renderItem={({ item }) => {
           const isAdded = existingCityIds.includes(item.id);
           return (

@@ -1,6 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
-import { FlatList, Modal, Pressable, Text, View } from "react-native";
+import { useMemo, useState } from "react";
+import {
+  FlatList,
+  Modal,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DigitalClock } from "@/components/DigitalClock";
 import { Card } from "@/components/ui/Card";
@@ -23,11 +30,31 @@ function CitySelector({
   onSelect: (city: City) => void;
   selectedId: string;
 }) {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredCities = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return sortedCities;
+    }
+    const query = searchQuery.toLowerCase().trim();
+    return sortedCities.filter(
+      (city) =>
+        city.name.toLowerCase().includes(query) ||
+        city.nameEn.toLowerCase().includes(query) ||
+        city.country.toLowerCase().includes(query),
+    );
+  }, [searchQuery]);
+
+  const handleClose = () => {
+    setSearchQuery("");
+    onClose();
+  };
+
   const renderCity = ({ item: city }: { item: City }) => (
     <Pressable
       onPress={() => {
         onSelect(city);
-        onClose();
+        handleClose();
       }}
       className={`flex-row items-center px-4 py-4 border-b border-secondary-800 ${
         city.id === selectedId ? "bg-primary-900/20" : "active:bg-secondary-800"
@@ -53,18 +80,34 @@ function CitySelector({
       <SafeAreaView className="flex-1 bg-secondary-900">
         <View className="flex-row items-center justify-between px-4 py-3 border-b border-secondary-700">
           <Text className="text-lg font-semibold text-white">都市を選択</Text>
-          <Pressable onPress={onClose} className="p-2">
+          <Pressable onPress={handleClose} className="p-2">
             <Ionicons name="close" size={24} color="#64748b" />
           </Pressable>
         </View>
+        <View className="px-4 py-3">
+          <View className="flex-row items-center bg-secondary-800 rounded-xl px-4 py-3">
+            <Ionicons name="search" size={20} color="#64748b" />
+            <TextInput
+              className="flex-1 ml-3 text-base text-white"
+              placeholder="都市名・国名で検索..."
+              placeholderTextColor="#94a3b8"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+            {searchQuery.length > 0 && (
+              <Pressable onPress={() => setSearchQuery("")}>
+                <Ionicons name="close-circle" size={20} color="#94a3b8" />
+              </Pressable>
+            )}
+          </View>
+          <Text className="text-secondary-500 text-xs mt-2 ml-1">
+            {filteredCities.length}件の都市
+          </Text>
+        </View>
         <FlatList
-          data={sortedCities}
+          data={filteredCities}
           renderItem={renderCity}
           keyExtractor={(item) => item.id}
-          initialNumToRender={30}
-          maxToRenderPerBatch={20}
-          windowSize={10}
-          removeClippedSubviews={true}
         />
       </SafeAreaView>
     </Modal>
