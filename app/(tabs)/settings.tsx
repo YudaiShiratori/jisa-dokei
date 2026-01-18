@@ -1,9 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 import { useState } from "react";
 import {
   Alert,
   FlatList,
   Modal,
+  Platform,
   Pressable,
   ScrollView,
   Switch,
@@ -72,7 +74,31 @@ export default function SettingsScreen() {
   const localCity =
     CITIES.find((c) => c.timezone === localTimezone) || CITIES[0];
 
+  const triggerHaptic = (type: "light" | "medium" | "warning") => {
+    if (Platform.OS === "web") return;
+    if (type === "warning") {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+    } else {
+      Haptics.impactAsync(
+        type === "light"
+          ? Haptics.ImpactFeedbackStyle.Light
+          : Haptics.ImpactFeedbackStyle.Medium,
+      );
+    }
+  };
+
+  const handleToggle24Hour = () => {
+    triggerHaptic("light");
+    toggle24Hour();
+  };
+
+  const handleToggleShowSeconds = () => {
+    triggerHaptic("light");
+    toggleShowSeconds();
+  };
+
   const handleClearCities = () => {
+    triggerHaptic("warning");
     Alert.alert(
       "都市リストをリセット",
       "追加した都市をすべて削除し、初期状態に戻しますか？",
@@ -81,18 +107,24 @@ export default function SettingsScreen() {
         {
           text: "リセット",
           style: "destructive",
-          onPress: clearAllCities,
+          onPress: () => {
+            triggerHaptic("warning");
+            clearAllCities();
+          },
         },
       ],
     );
   };
 
+  const handleTimezoneSelect = (timezone: string) => {
+    triggerHaptic("medium");
+    setLocalTimezone(timezone);
+    setShowTimezoneModal(false);
+  };
+
   const renderTimezoneItem = ({ item: city }: { item: City }) => (
     <Pressable
-      onPress={() => {
-        setLocalTimezone(city.timezone);
-        setShowTimezoneModal(false);
-      }}
+      onPress={() => handleTimezoneSelect(city.timezone)}
       className={`flex-row items-center px-4 py-4 border-b border-secondary-800 ${
         city.timezone === localTimezone
           ? "bg-primary-900/20"
@@ -125,7 +157,7 @@ export default function SettingsScreen() {
               rightElement={
                 <Switch
                   value={timeFormat.use24Hour}
-                  onValueChange={toggle24Hour}
+                  onValueChange={handleToggle24Hour}
                   trackColor={{ false: "#cbd5e1", true: "#0ea5e9" }}
                 />
               }
@@ -137,7 +169,7 @@ export default function SettingsScreen() {
               rightElement={
                 <Switch
                   value={timeFormat.showSeconds}
-                  onValueChange={toggleShowSeconds}
+                  onValueChange={handleToggleShowSeconds}
                   trackColor={{ false: "#cbd5e1", true: "#0ea5e9" }}
                 />
               }
