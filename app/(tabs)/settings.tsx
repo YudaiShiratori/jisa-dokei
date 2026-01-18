@@ -1,11 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
-import * as Haptics from "expo-haptics";
 import { useState } from "react";
 import {
   Alert,
   FlatList,
   Modal,
-  Platform,
   Pressable,
   ScrollView,
   Switch,
@@ -15,6 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Card } from "@/components/ui/Card";
 import { CITIES, type City } from "@/lib/cities";
+import { triggerLight, triggerMedium, triggerWarning } from "@/lib/haptics";
 import { useCitiesStore } from "@/store/cities";
 import { useSettingsStore } from "@/store/settings";
 
@@ -41,6 +40,8 @@ function SettingRow({
       onPress={onPress}
       disabled={!onPress}
       className="flex-row items-center py-4 border-b border-secondary-800"
+      accessibilityRole={onPress ? "button" : "none"}
+      accessibilityLabel={subtitle ? `${title}、${subtitle}` : title}
     >
       <View className="w-10 h-10 bg-primary-900/30 rounded-xl items-center justify-center mr-4">
         <Ionicons name={icon} size={20} color="#0ea5e9" />
@@ -74,31 +75,18 @@ export default function SettingsScreen() {
   const localCity =
     CITIES.find((c) => c.timezone === localTimezone) || CITIES[0];
 
-  const triggerHaptic = (type: "light" | "medium" | "warning") => {
-    if (Platform.OS === "web") return;
-    if (type === "warning") {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-    } else {
-      Haptics.impactAsync(
-        type === "light"
-          ? Haptics.ImpactFeedbackStyle.Light
-          : Haptics.ImpactFeedbackStyle.Medium,
-      );
-    }
-  };
-
   const handleToggle24Hour = () => {
-    triggerHaptic("light");
+    triggerLight();
     toggle24Hour();
   };
 
   const handleToggleShowSeconds = () => {
-    triggerHaptic("light");
+    triggerLight();
     toggleShowSeconds();
   };
 
   const handleClearCities = () => {
-    triggerHaptic("warning");
+    triggerWarning();
     Alert.alert(
       "都市リストをリセット",
       "追加した都市をすべて削除し、初期状態に戻しますか？",
@@ -108,7 +96,7 @@ export default function SettingsScreen() {
           text: "リセット",
           style: "destructive",
           onPress: () => {
-            triggerHaptic("warning");
+            triggerWarning();
             clearAllCities();
           },
         },
@@ -117,7 +105,7 @@ export default function SettingsScreen() {
   };
 
   const handleTimezoneSelect = (timezone: string) => {
-    triggerHaptic("medium");
+    triggerMedium();
     setLocalTimezone(timezone);
     setShowTimezoneModal(false);
   };
@@ -159,6 +147,8 @@ export default function SettingsScreen() {
                   value={timeFormat.use24Hour}
                   onValueChange={handleToggle24Hour}
                   trackColor={{ false: "#cbd5e1", true: "#0ea5e9" }}
+                  accessibilityLabel="24時間表示"
+                  accessibilityState={{ checked: timeFormat.use24Hour }}
                 />
               }
             />
@@ -171,6 +161,8 @@ export default function SettingsScreen() {
                   value={timeFormat.showSeconds}
                   onValueChange={handleToggleShowSeconds}
                   trackColor={{ false: "#cbd5e1", true: "#0ea5e9" }}
+                  accessibilityLabel="秒を表示"
+                  accessibilityState={{ checked: timeFormat.showSeconds }}
                 />
               }
             />

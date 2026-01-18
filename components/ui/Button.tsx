@@ -45,6 +45,8 @@ export const Button = forwardRef<
       ref={ref}
       className={`${baseStyle} ${variantStyles[variant]} ${sizeStyles[size]}`}
       style={style}
+      accessibilityRole="button"
+      accessibilityState={{ disabled: props.disabled ?? false }}
       {...props}
     >
       {typeof children === "string" ? (

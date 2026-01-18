@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { memo } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useClock, useTimeDifference } from "@/hooks/use-clock";
 import { useSettingsStore } from "@/store/settings";
@@ -11,7 +12,7 @@ interface CityCardProps {
   showRemoveButton?: boolean;
 }
 
-export function CityCard({
+export const CityCard = memo(function CityCard({
   city,
   onRemove,
   showRemoveButton = true,
@@ -20,9 +21,16 @@ export function CityCard({
   const { time, date } = useClock(city.timezone);
   const timeDiff = useTimeDifference(localTimezone, city.timezone);
 
+  const accessibilityLabel = `${city.name}、${city.country}。現在時刻${time}、${timeDiff.formatted}`;
+
   return (
     <Card variant="elevated">
-      <View className="flex-row items-center justify-between">
+      <View
+        className="flex-row items-center justify-between"
+        accessible={true}
+        accessibilityRole="summary"
+        accessibilityLabel={accessibilityLabel}
+      >
         <View className="flex-1">
           <View className="flex-row items-center mb-2">
             <Text className="text-3xl mr-3">{city.flag}</Text>
@@ -68,6 +76,8 @@ export function CityCard({
             onPress={onRemove}
             className="ml-4 p-2 -mr-2 active:opacity-60"
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            accessibilityRole="button"
+            accessibilityLabel={`${city.name}を削除`}
           >
             <Ionicons name="close-circle" size={24} color="#64748b" />
           </Pressable>
@@ -75,4 +85,4 @@ export function CityCard({
       </View>
     </Card>
   );
-}
+});

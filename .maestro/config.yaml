@@ -1,0 +1,13 @@
+# Maestro configuration for jisa-dokei
+appId: com.jisadokei.app
+name: 時差時計 E2E Tests
+
+# Default values for all flows
+defaults:
+  timeout: 10000
+
+# Include all flows
+flows:
+  - flows/add-city-flow.yaml
+  - flows/remove-city-flow.yaml
+  - flows/calculator-flow.yaml

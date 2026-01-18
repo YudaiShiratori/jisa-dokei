@@ -30,8 +30,15 @@ export function DigitalClock({
     xl: "text-lg",
   };
 
+  const accessibilityLabel = `現在時刻${time}${showDate ? `、${date}` : ""}${showUtcOffset ? `、${utcOffset}` : ""}`;
+
   return (
-    <View className="items-center">
+    <View
+      className="items-center"
+      accessible={true}
+      accessibilityRole="timer"
+      accessibilityLabel={accessibilityLabel}
+    >
       <Text
         className={`font-mono font-bold text-white ${timeSizeStyles[size]}`}
       >

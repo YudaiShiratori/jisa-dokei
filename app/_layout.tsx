@@ -4,6 +4,7 @@ import { router, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { Pressable, Text } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "react-native-reanimated";
 
@@ -65,32 +66,34 @@ function BackButton() {
 
 function RootLayoutNav() {
   return (
-    <ThemeProvider>
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: "#0f172a" },
-          headerTintColor: "#ffffff",
-          headerTitleStyle: { fontWeight: "600", color: "#ffffff" },
-        }}
-      >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="add-city"
-          options={{
-            presentation: "modal",
-            title: "都市を追加",
-            headerLeft: () => <BackButton />,
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider>
+        <Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: "#0f172a" },
+            headerTintColor: "#ffffff",
+            headerTitleStyle: { fontWeight: "600", color: "#ffffff" },
           }}
-        />
-        <Stack.Screen
-          name="select-city"
-          options={{
-            presentation: "modal",
-            title: "都市を選択",
-            headerLeft: () => <BackButton />,
-          }}
-        />
-      </Stack>
-    </ThemeProvider>
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="add-city"
+            options={{
+              presentation: "modal",
+              title: "都市を追加",
+              headerLeft: () => <BackButton />,
+            }}
+          />
+          <Stack.Screen
+            name="select-city"
+            options={{
+              presentation: "modal",
+              title: "都市を選択",
+              headerLeft: () => <BackButton />,
+            }}
+          />
+        </Stack>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
