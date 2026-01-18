@@ -12,8 +12,5 @@ export interface TimeFormat {
 
 export interface AppSettings {
   timeFormat: TimeFormat;
-  theme: "light" | "dark" | "system";
   localTimezone: string;
 }
-
-export type ThemeMode = "light" | "dark" | "system";

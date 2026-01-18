@@ -14,7 +14,6 @@ import { Card } from "@/components/ui/Card";
 import { CITIES } from "@/lib/cities";
 import { useCitiesStore } from "@/store/cities";
 import { useSettingsStore } from "@/store/settings";
-import type { ThemeMode } from "@/types";
 
 function SettingRow({
   icon,
@@ -59,26 +58,17 @@ function SettingRow({
 export default function SettingsScreen() {
   const {
     timeFormat,
-    theme,
     localTimezone,
     toggle24Hour,
     toggleShowSeconds,
-    setTheme,
     setLocalTimezone,
   } = useSettingsStore();
   const { clearAllCities } = useCitiesStore();
 
-  const [showThemeModal, setShowThemeModal] = useState(false);
   const [showTimezoneModal, setShowTimezoneModal] = useState(false);
 
   const localCity =
     CITIES.find((c) => c.timezone === localTimezone) || CITIES[0];
-
-  const themeLabels: Record<ThemeMode, string> = {
-    light: "ライト",
-    dark: "ダーク",
-    system: "システム設定に従う",
-  };
 
   const handleClearCities = () => {
     Alert.alert(
@@ -142,12 +132,6 @@ export default function SettingsScreen() {
               subtitle={`${localCity.flag} ${localCity.name}`}
               onPress={() => setShowTimezoneModal(true)}
             />
-            <SettingRow
-              icon="moon-outline"
-              title="テーマ"
-              subtitle={themeLabels[theme]}
-              onPress={() => setShowThemeModal(true)}
-            />
           </Card>
 
           <Text className="text-sm font-medium text-secondary-500 dark:text-secondary-400 mb-2 ml-1">
@@ -169,69 +153,6 @@ export default function SettingsScreen() {
           </View>
         </View>
       </ScrollView>
-
-      <Modal
-        visible={showThemeModal}
-        animationType="slide"
-        presentationStyle="pageSheet"
-      >
-        <SafeAreaView className="flex-1 bg-white dark:bg-secondary-900">
-          <View className="flex-row items-center justify-between px-4 py-3 border-b border-secondary-200 dark:border-secondary-700">
-            <Text className="text-lg font-semibold text-secondary-900 dark:text-white">
-              テーマ
-            </Text>
-            <Pressable onPress={() => setShowThemeModal(false)} className="p-2">
-              <Ionicons name="close" size={24} color="#64748b" />
-            </Pressable>
-          </View>
-          <View className="p-4">
-            {(["light", "dark", "system"] as ThemeMode[]).map((mode) => (
-              <Pressable
-                key={mode}
-                onPress={() => {
-                  setTheme(mode);
-                  setShowThemeModal(false);
-                }}
-                className={`flex-row items-center py-4 px-4 rounded-xl mb-2 ${
-                  theme === mode
-                    ? "bg-primary-50 dark:bg-primary-900/20"
-                    : "active:bg-secondary-50 dark:active:bg-secondary-800"
-                }`}
-              >
-                <Ionicons
-                  name={
-                    mode === "light"
-                      ? "sunny-outline"
-                      : mode === "dark"
-                        ? "moon-outline"
-                        : "phone-portrait-outline"
-                  }
-                  size={24}
-                  color={theme === mode ? "#0ea5e9" : "#64748b"}
-                />
-                <Text
-                  className={`ml-4 text-base ${
-                    theme === mode
-                      ? "text-primary-500 font-semibold"
-                      : "text-secondary-900 dark:text-white"
-                  }`}
-                >
-                  {themeLabels[mode]}
-                </Text>
-                {theme === mode && (
-                  <View className="flex-1 items-end">
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={24}
-                      color="#0ea5e9"
-                    />
-                  </View>
-                )}
-              </Pressable>
-            ))}
-          </View>
-        </SafeAreaView>
-      </Modal>
 
       <Modal
         visible={showTimezoneModal}
