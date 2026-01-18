@@ -38,12 +38,12 @@ export function DigitalClock({
         {time}
       </Text>
       {showDate && (
-        <Text className={`text-secondary-400 ${dateSizeStyles[size]}`}>
+        <Text className={`text-secondary-300 ${dateSizeStyles[size]}`}>
           {date}
         </Text>
       )}
       {showUtcOffset && (
-        <Text className={`text-secondary-500 ${dateSizeStyles[size]} mt-1`}>
+        <Text className={`text-secondary-400 ${dateSizeStyles[size]} mt-1`}>
           {utcOffset}
         </Text>
       )}
