@@ -15,39 +15,54 @@ interface ClockState {
   utcOffset: string;
 }
 
+/**
+ * Pure function to calculate clock state for a given timezone.
+ * Extracted from the hook for testability and to avoid temporal dead zone issues.
+ */
+export function getClockState(
+  timezone: string,
+  use24Hour: boolean,
+  showSeconds: boolean,
+  date?: Date,
+): ClockState {
+  const formatStr = use24Hour
+    ? showSeconds
+      ? "HH:mm:ss"
+      : "HH:mm"
+    : showSeconds
+      ? "h:mm:ss a"
+      : "h:mm a";
+
+  return {
+    time: formatTimeInTimezone(timezone, formatStr, date),
+    date: formatDateInTimezone(timezone, "M月d日 (E)", date),
+    utcOffset: getUtcOffset(timezone, date),
+  };
+}
+
 export function useClock(timezone: string) {
   const { timeFormat } = useSettingsStore();
-  const [state, setState] = useState<ClockState>(() => getClockState(timezone));
+  const [state, setState] = useState<ClockState>(() =>
+    getClockState(timezone, timeFormat.use24Hour, timeFormat.showSeconds),
+  );
 
-  const getClockState = useCallback(
+  const updateClockState = useCallback(
     (tz: string): ClockState => {
-      const formatStr = timeFormat.use24Hour
-        ? timeFormat.showSeconds
-          ? "HH:mm:ss"
-          : "HH:mm"
-        : timeFormat.showSeconds
-          ? "h:mm:ss a"
-          : "h:mm a";
-
-      return {
-        time: formatTimeInTimezone(tz, formatStr),
-        date: formatDateInTimezone(tz, "M月d日 (E)"),
-        utcOffset: getUtcOffset(tz),
-      };
+      return getClockState(tz, timeFormat.use24Hour, timeFormat.showSeconds);
     },
     [timeFormat.use24Hour, timeFormat.showSeconds],
   );
 
   useEffect(() => {
     const updateClock = () => {
-      setState(getClockState(timezone));
+      setState(updateClockState(timezone));
     };
 
     updateClock();
     const interval = setInterval(updateClock, 1000);
 
     return () => clearInterval(interval);
-  }, [timezone, getClockState]);
+  }, [timezone, updateClockState]);
 
   return state;
 }
