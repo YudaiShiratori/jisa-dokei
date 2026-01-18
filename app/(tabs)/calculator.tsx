@@ -4,7 +4,7 @@ import { Modal, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DigitalClock } from "@/components/DigitalClock";
 import { Card } from "@/components/ui/Card";
-import { useClock, useTimeDifference } from "@/hooks/use-clock";
+import { useTimeDifference } from "@/hooks/use-clock";
 import { CITIES, type City } from "@/lib/cities";
 
 function CitySelector({
@@ -74,8 +74,6 @@ export default function CalculatorScreen() {
   const [showSelector2, setShowSelector2] = useState(false);
 
   const timeDiff = useTimeDifference(city1.timezone, city2.timezone);
-  useClock(city1.timezone);
-  useClock(city2.timezone);
 
   const swapCities = () => {
     const temp = city1;

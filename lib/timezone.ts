@@ -56,12 +56,26 @@ export function getTimeDifference(
 
   // Calculate difference: how much ahead/behind is target compared to base
   const totalMinutes = targetMinutes - baseMinutes;
-  const hours = Math.trunc(totalMinutes / 60);
-  const minutes = Math.abs(totalMinutes % 60);
+  const absTotalMinutes = Math.abs(totalMinutes);
+  const absHoursValue = Math.floor(absTotalMinutes / 60);
+  const hours =
+    absHoursValue === 0 ? 0 : absHoursValue * (totalMinutes < 0 ? -1 : 1);
+  const minutes = absTotalMinutes % 60;
 
-  const sign = totalMinutes >= 0 ? "+" : "";
-  const formatted =
-    minutes === 0 ? `${sign}${hours}時間` : `${sign}${hours}時間${minutes}分`;
+  // Determine sign for formatting
+  const sign = totalMinutes === 0 ? "" : totalMinutes > 0 ? "+" : "-";
+  const absHours = Math.abs(hours);
+
+  let formatted: string;
+  if (absHours === 0 && minutes === 0) {
+    formatted = "±0時間";
+  } else if (absHours === 0) {
+    formatted = `${sign}${minutes}分`;
+  } else if (minutes === 0) {
+    formatted = `${sign}${absHours}時間`;
+  } else {
+    formatted = `${sign}${absHours}時間${minutes}分`;
+  }
 
   return { hours, minutes, formatted };
 }
@@ -80,10 +94,11 @@ export function isNextDay(
   const baseDate = getTimeInTimezone(baseTimezone, date);
   const targetDate = getTimeInTimezone(targetTimezone, date);
 
-  return (
-    format(targetDate, "yyyy-MM-dd") !== format(baseDate, "yyyy-MM-dd") &&
-    targetDate > baseDate
-  );
+  const baseDateStr = format(baseDate, "yyyy-MM-dd");
+  const targetDateStr = format(targetDate, "yyyy-MM-dd");
+
+  // Compare calendar date strings lexicographically
+  return targetDateStr > baseDateStr;
 }
 
 export function isPreviousDay(
@@ -94,8 +109,9 @@ export function isPreviousDay(
   const baseDate = getTimeInTimezone(baseTimezone, date);
   const targetDate = getTimeInTimezone(targetTimezone, date);
 
-  return (
-    format(targetDate, "yyyy-MM-dd") !== format(baseDate, "yyyy-MM-dd") &&
-    targetDate < baseDate
-  );
+  const baseDateStr = format(baseDate, "yyyy-MM-dd");
+  const targetDateStr = format(targetDate, "yyyy-MM-dd");
+
+  // Compare calendar date strings lexicographically
+  return targetDateStr < baseDateStr;
 }
