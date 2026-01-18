@@ -2,48 +2,39 @@
 
 ## Project Overview
 
-> **Note**: This is a template. When creating a new project from this template, update this section to describe your specific project's purpose, features, and goals.
-
-This is a Next.js TypeScript full-stack development template based on the T3 Stack, enhanced with Claude Code compatibility. It provides type-safe full-stack development with modern tooling and comprehensive testing setup.
+時差時計（Jisa Dokei）- 世界各地の時刻と時差を確認できるクロスプラットフォームモバイルアプリケーション。Expo + React Nativeで構築されています。
 
 ## Tech Stack
 
-- **Next.js** - Full-stack React framework with App Router
-- **TypeScript** - Type-safe JavaScript development
-- **Tailwind CSS** - Utility-first CSS framework
-- **tRPC** - End-to-end type-safe API communication
-- **Ultracite** - AI-ready code formatter and linter (built on Biome)
-- **Zod** - TypeScript-first schema validation
-- **Vitest** - Fast unit testing framework
-- **Playwright** - Modern E2E testing framework
-- **Shadcn/UI** - Customizable UI components
+- **Expo** - React Nativeアプリ開発プラットフォーム
+- **Expo Router** - ファイルベースルーティング
+- **TypeScript** - 型安全なJavaScript
+- **NativeWind** - Tailwind CSS for React Native
+- **Zustand** - 軽量状態管理
+- **date-fns / @date-fns/tz** - 日付/タイムゾーン処理
+- **Ultracite** - Biomeベースのリンター/フォーマッター
+- **Vitest** - ユニットテストフレームワーク
 
 ## Essential Commands
 
 ### Package Management
 - `bun install` - Install dependencies
 - `bun add {packages}` - Add new packages
-- `bunx --bun shadcn@latest add {components}` - Add Shadcn/UI components
 
 ### Development
-- `bun run dev` - Start development server
-- `bun run build` - Build for production
-- `bun run start` - Start production server
+- `bun run start` - Start Expo development server
+- `bun run ios` - Start iOS simulator
+- `bun run android` - Start Android emulator
+- `bun run web` - Start web browser
 
 ### Code Quality
 - `bun run check` - Check code quality with Ultracite
 - `bun run check:write` - Auto-fix code issues with Ultracite
-- `bun run check:unsafe` - Apply unsafe fixes with Ultracite
 - `bun run typecheck` - Run TypeScript type checking
 
 ### Testing
 - `bun run test` - Run unit tests with Vitest
-- `bun run test:e2e` - Run E2E tests with Playwright
-- `bunx playwright install` - Install Playwright browsers
-
-### Git Hooks
-- Git hooks are automatically installed via `bun install` (postinstall script)
-- Hooks run Ultracite formatting and TypeScript type checking on pre-commit
+- `bun run test:watch` - Run tests in watch mode
 
 ### GitHub Operations
 - `gh issue list` - List GitHub issues
@@ -60,24 +51,26 @@ This is a Next.js TypeScript full-stack development template based on the T3 Sta
 - **Effective Comments**: Explain "why" not "what" - focus on intent and context
 
 ### File Organization
-- Use kebab-case for file names (e.g., `user-profile.tsx`)
-- Place components in appropriate directories (`src/components/` for shared, `src/app/_components/` for app-specific)
+- Use kebab-case for file names (e.g., `use-clock.ts`)
+- Place components in `components/` directory
+- Place utility functions in `lib/` directory
+- Place custom hooks in `hooks/` directory
+- Place Zustand stores in `store/` directory
 - Mirror test file structure in `__tests__/` directory
-- Follow Next.js App Router conventions for routing
+- Follow Expo Router conventions for routing (`app/` directory)
 
 ### Import/Export Style
 - Use ES modules (import/export) syntax, not CommonJS (require)
-- Prefer destructuring imports when possible (e.g., `import { Button } from './button'`)
+- Prefer destructuring imports when possible
 - Use default exports for pages and main components
 - Use named exports for utilities and shared functions
+- Use `@/` path alias for imports from project root
 
 ### Component Development
 - Use TypeScript interfaces for props definition
-- Implement proper error boundaries for robust UX
-- Follow React best practices (hooks rules, component composition)
-- Use Shadcn/UI components as base for custom UI elements
-- Follow the design system documented in `src/app/design-system/` for all UI implementations
-- Use design tokens defined in `src/styles/globals.css` for consistent styling across the application
+- Follow React Native best practices
+- Use NativeWind (Tailwind CSS) for styling
+- Follow dark theme design (app is dark theme only)
 
 ## Testing Guidelines
 
@@ -95,14 +88,6 @@ This is a Next.js TypeScript full-stack development template based on the T3 Sta
 - Take small, incremental steps (one test case at a time)
 - Use descriptive test names that express behavior, not implementation
 - Focus on what the code should do, not how it does it
-- Triangulate when discovering the right abstraction (add multiple test cases)
-
-**Implementation Order**:
-1. Start with the simplest failing test case
-2. Make it pass with minimal code
-3. Add more test cases to drive out edge cases and abstractions
-4. Refactor only when tests are green
-5. Repeat for each new behavior
 
 ### Unit Testing with Vitest
 - Test files should be placed in `__tests__/` directory
@@ -110,73 +95,62 @@ This is a Next.js TypeScript full-stack development template based on the T3 Sta
 - Follow Given-When-Then pattern for test structure
 - Mock external dependencies appropriately using `vi.mock()`
 
-### E2E Testing with Playwright
-- E2E tests should be in `e2e/` directory
-- Test critical user journeys and flows
-- Use page object model for maintainable tests
-
 ### Best Practices
 - Each test should be independent and isolated
 - Use descriptive test names that explain what is being tested
 - Test both happy paths and error cases
-- Prefer integration tests over unit tests for React components
-
-## API Development with tRPC
-
-### Creating New API Endpoints
-1. Create router files in `src/server/api/routers/`
-2. Define procedures with proper input validation using Zod
-3. Register routers in `src/server/api/root.ts`
-4. Use `publicProcedure` for open endpoints, `protectedProcedure` for authenticated
-
-### Type Safety
-- All API inputs/outputs are automatically type-safe
-- Use Zod schemas for runtime validation
-- Leverage tRPC's React Query integration for client-side data fetching
+- Use fixed dates when testing time-related functions
 
 ## Project Structure
 
 ```
-src/
-├── app/              # Next.js App Router pages and layouts
-│   ├── _components/  # App-specific components
-│   ├── api/          # API routes (including tRPC)
-│   └── ...           # Page routes
-├── components/       # Shared UI components
-│   └── ui/           # Shadcn/UI components
-├── lib/              # Utility functions and shared logic
-├── server/           # Server-side logic and tRPC API definitions
-│   └── api/          # tRPC routers and procedures
-├── styles/           # Global styles
-└── trpc/             # tRPC client configuration
+jisa-dokei/
+├── __tests__/            # Unit test files
+│   ├── hooks/            # Hook tests
+│   └── lib/              # Library tests
+├── app/                  # Expo Router pages
+│   ├── (tabs)/           # Tab navigation
+│   │   ├── index.tsx     # World clock tab
+│   │   ├── calculator.tsx # Time difference calculator
+│   │   └── settings.tsx  # Settings tab
+│   ├── _layout.tsx       # Root layout
+│   └── add-city.tsx      # Add city screen
+├── assets/               # Images and fonts
+├── components/           # Reusable components
+│   └── ui/               # UI components (Card, etc.)
+├── constants/            # Constants (Colors, etc.)
+├── hooks/                # Custom hooks
+├── lib/                  # Utility functions
+│   ├── cities.ts         # City data (463 cities)
+│   └── timezone.ts       # Timezone utilities
+├── store/                # Zustand stores
+│   ├── cities.ts         # Cities state
+│   └── settings.ts       # Settings state
+├── types/                # TypeScript types
+└── ...                   # Config files
 ```
 
 ## Important Notes
 
 - Always run type checking after making changes: `bun run typecheck`
 - Use Ultracite for consistent code formatting: `bun run check:write`
-- Prefer running single tests during development for performance
-- Keep dependencies up to date using Dependabot PRs
 - Follow the existing patterns in the codebase for consistency
+- This app uses dark theme only (no theme switching)
+- The app supports 463 cities across all continents
 
 ## Claude AI Guidance
 
 ### Custom Instructions for Development
 Follow these guidelines when assisting with code generation, reviews, or modifications:
 
-- **Coding Principles**: Prioritize understandability in code. Use meaningful names for variables/functions. Add comments explaining 'why' not 'what'. Format code consistently with proper indentation and grouping. Simplify control flows using guards and early returns. Decompose complex logic into smaller parts. Optimize variable scopes and eliminate unnecessary temporaries. Include tests and examples to demonstrate intent.
+- **Coding Principles**: Prioritize understandability in code. Use meaningful names for variables/functions. Add comments explaining 'why' not 'what'. Format code consistently with proper indentation and grouping.
 
-- **UI/UX Design**: Design user-centered interfaces with clarity, simplicity, consistency, and efficiency. Follow visual hierarchy, thoughtful color/typography, intuitive interactions, accessibility (WCAG), and responsive design. Use shadcn/ui for components and adhere to component-driven design. **IMPORTANT**: Follow the design system documented in `src/app/design-system/` and use design tokens from `src/styles/globals.css` for all UI implementations to ensure consistency.
+- **UI/UX Design**: Follow React Native and NativeWind best practices. Use dark theme styling consistently. Ensure proper accessibility.
 
-- **Package Management**: Use bun for all package operations: `bun add {packages}` for adding, `bun install` for dependencies. For UI components: `bunx --bun shadcn@latest add {components}`.
+- **Package Management**: Use bun for all package operations: `bun add {packages}` for adding, `bun install` for dependencies.
 
 - **Testing**: Use Vitest for unit tests. Place tests in __tests__ with .test.ts(x) naming. Ensure test independence, readability (Given-When-Then), proper mocking, assertions, and coverage of error cases.
 
-- **Linting and Formatting**: Use Biome via `bun run check:write` for safe fixes. Avoid violations like noForEach, noUnusedVariables, useExhaustiveDependencies, noExplicitAny.
-
-- **Documentation**: Update docs/ when code changes, especially docs/directory-structure.md for structure updates.
+- **Linting and Formatting**: Use Ultracite via `bun run check:write` for safe fixes.
 
 - **General**: Prevent duplicates by checking existing implementations. Follow TDD (Red-Green-Refactor). Use GitHub CLI for issues/PRs.
-
-These instructions ensure consistency in both CI/CD and local development.
-
