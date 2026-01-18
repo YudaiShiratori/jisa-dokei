@@ -1,16 +1,26 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FlatList, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CITIES, searchCities } from "@/lib/cities";
 import { useCitiesStore } from "@/store/cities";
 
+// Sort cities by country name for easier browsing
+const sortedCities = [...CITIES].sort((a, b) =>
+  a.country.localeCompare(b.country, "ja"),
+);
+
 export default function AddCityScreen() {
   const [searchQuery, setSearchQuery] = useState("");
   const { cities, addCity } = useCitiesStore();
 
-  const filteredCities = searchQuery ? searchCities(searchQuery) : CITIES;
+  const filteredCities = useMemo(() => {
+    if (searchQuery) {
+      return searchCities(searchQuery);
+    }
+    return sortedCities;
+  }, [searchQuery]);
 
   const existingCityIds = cities.map((c) => c.id);
 
@@ -44,6 +54,10 @@ export default function AddCityScreen() {
         data={filteredCities}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingHorizontal: 16 }}
+        initialNumToRender={30}
+        maxToRenderPerBatch={20}
+        windowSize={10}
+        removeClippedSubviews={true}
         renderItem={({ item }) => {
           const isAdded = existingCityIds.includes(item.id);
           return (

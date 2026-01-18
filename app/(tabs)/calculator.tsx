@@ -7,6 +7,11 @@ import { Card } from "@/components/ui/Card";
 import { useTimeDifference } from "@/hooks/use-clock";
 import { CITIES, type City } from "@/lib/cities";
 
+// Sort cities by country name for easier browsing
+const sortedCities = [...CITIES].sort((a, b) =>
+  a.country.localeCompare(b.country, "ja"),
+);
+
 function CitySelector({
   visible,
   onClose,
@@ -53,12 +58,13 @@ function CitySelector({
           </Pressable>
         </View>
         <FlatList
-          data={CITIES}
+          data={sortedCities}
           renderItem={renderCity}
           keyExtractor={(item) => item.id}
-          initialNumToRender={20}
-          maxToRenderPerBatch={10}
+          initialNumToRender={30}
+          maxToRenderPerBatch={20}
           windowSize={10}
+          removeClippedSubviews={true}
         />
       </SafeAreaView>
     </Modal>
