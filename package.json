@@ -11,7 +11,9 @@
     "check:write": "ultracite fix",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "e2e": "agent-browser",
+    "e2e:install": "agent-browser install"
   },
   "dependencies": {
     "@date-fns/tz": "^1.4.1",
@@ -46,6 +48,7 @@
     "@testing-library/react-native": "^13.3.3",
     "@types/react": "~19.1.0",
     "@types/react-native": "^0.73.0",
+    "agent-browser": "^0.6.0",
     "jest-expo": "^54.0.16",
     "jsdom": "^27.4.0",
     "react-test-renderer": "19.1.0",
