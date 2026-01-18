@@ -1,0 +1,23 @@
+# Remove City Flow - 都市削除のE2Eテスト
+appId: com.jisadokei.app
+name: Remove City Flow
+
+---
+# アプリが起動していることを確認
+- assertVisible: "世界の都市"
+
+# デフォルトの都市が表示されていることを確認
+- assertVisible: "東京"
+- assertVisible: "ニューヨーク"
+- assertVisible: "バルセロナ"
+
+# バルセロナの削除ボタンをタップ
+- tapOn:
+    text: "バルセロナを削除"
+
+# バルセロナが削除されたことを確認
+- assertNotVisible: "バルセロナ"
+
+# 他の都市は残っていることを確認
+- assertVisible: "東京"
+- assertVisible: "ニューヨーク"

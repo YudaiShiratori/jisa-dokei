@@ -1,0 +1,26 @@
+# Add City Flow - 都市追加のE2Eテスト
+appId: com.jisadokei.app
+name: Add City Flow
+
+---
+# アプリが起動していることを確認
+- assertVisible: "世界の都市"
+
+# 追加ボタンをタップ
+- tapOn: "追加"
+
+# 都市追加モーダルが表示されていることを確認
+- assertVisible: "都市を追加"
+
+# 大陸を選択（アジア）
+- tapOn: "アジア"
+
+# アジアの都市リストが表示されることを確認
+- assertVisible: "都市を選択"
+
+# ソウルを選択
+- tapOn: "ソウル"
+
+# ホーム画面に戻り、ソウルが追加されていることを確認
+- assertVisible: "世界の都市"
+- assertVisible: "ソウル"

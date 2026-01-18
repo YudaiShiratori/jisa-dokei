@@ -1,0 +1,29 @@
+# Calculator Flow - 時差計算のE2Eテスト
+appId: com.jisadokei.app
+name: Calculator Flow
+
+---
+# アプリが起動していることを確認
+- assertVisible: "世界の都市"
+
+# 時差計算タブに移動
+- tapOn: "時差計算"
+
+# 時差計算画面が表示されていることを確認
+- assertVisible: "出発地"
+- assertVisible: "到着地"
+
+# 出発地を選択
+- tapOn: "出発地"
+- assertVisible: "都市を選択"
+- tapOn: "東京"
+
+# 到着地を選択
+- tapOn: "到着地"
+- assertVisible: "都市を選択"
+- tapOn: "ロンドン"
+
+# 時差が計算されて表示されていることを確認
+- assertVisible:
+    text: "時間"
+    optional: false
