@@ -20,15 +20,12 @@ export default function AddCityScreen() {
   };
 
   return (
-    <SafeAreaView
-      className="flex-1 bg-white dark:bg-secondary-900"
-      edges={["bottom"]}
-    >
+    <SafeAreaView className="flex-1 bg-secondary-900" edges={["bottom"]}>
       <View className="px-4 py-3">
-        <View className="flex-row items-center bg-secondary-100 dark:bg-secondary-800 rounded-xl px-4 py-3">
+        <View className="flex-row items-center bg-secondary-800 rounded-xl px-4 py-3">
           <Ionicons name="search" size={20} color="#64748b" />
           <TextInput
-            className="flex-1 ml-3 text-base text-secondary-900 dark:text-white"
+            className="flex-1 ml-3 text-base text-white"
             placeholder="都市名で検索..."
             placeholderTextColor="#94a3b8"
             value={searchQuery}
@@ -53,18 +50,16 @@ export default function AddCityScreen() {
             <Pressable
               onPress={() => !isAdded && handleAddCity(item.id)}
               disabled={isAdded}
-              className={`flex-row items-center py-4 border-b border-secondary-100 dark:border-secondary-800 ${
-                isAdded
-                  ? "opacity-50"
-                  : "active:bg-secondary-50 dark:active:bg-secondary-800"
+              className={`flex-row items-center py-4 border-b border-secondary-800 ${
+                isAdded ? "opacity-50" : "active:bg-secondary-800"
               }`}
             >
               <Text className="text-2xl mr-3">{item.flag}</Text>
               <View className="flex-1">
-                <Text className="text-base font-medium text-secondary-900 dark:text-white">
+                <Text className="text-base font-medium text-white">
                   {item.name}
                 </Text>
-                <Text className="text-sm text-secondary-500 dark:text-secondary-400">
+                <Text className="text-sm text-secondary-400">
                   {item.country} • {item.nameEn}
                 </Text>
               </View>
@@ -84,7 +79,7 @@ export default function AddCityScreen() {
         ListEmptyComponent={
           <View className="items-center py-12">
             <Ionicons name="search-outline" size={48} color="#94a3b8" />
-            <Text className="text-secondary-500 dark:text-secondary-400 mt-4 text-center">
+            <Text className="text-secondary-400 mt-4 text-center">
               「{searchQuery}」に一致する都市が{"\n"}見つかりませんでした
             </Text>
           </View>

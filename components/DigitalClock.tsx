@@ -33,21 +33,17 @@ export function DigitalClock({
   return (
     <View className="items-center">
       <Text
-        className={`font-mono font-bold text-secondary-900 dark:text-white ${timeSizeStyles[size]}`}
+        className={`font-mono font-bold text-white ${timeSizeStyles[size]}`}
       >
         {time}
       </Text>
       {showDate && (
-        <Text
-          className={`text-secondary-500 dark:text-secondary-400 ${dateSizeStyles[size]}`}
-        >
+        <Text className={`text-secondary-400 ${dateSizeStyles[size]}`}>
           {date}
         </Text>
       )}
       {showUtcOffset && (
-        <Text
-          className={`text-secondary-400 dark:text-secondary-500 ${dateSizeStyles[size]} mt-1`}
-        >
+        <Text className={`text-secondary-500 ${dateSizeStyles[size]} mt-1`}>
           {utcOffset}
         </Text>
       )}

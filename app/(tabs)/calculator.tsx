@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { Modal, Pressable, ScrollView, Text, View } from "react-native";
+import { FlatList, Modal, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DigitalClock } from "@/components/DigitalClock";
 import { Card } from "@/components/ui/Card";
@@ -18,50 +18,48 @@ function CitySelector({
   onSelect: (city: City) => void;
   selectedId: string;
 }) {
+  const renderCity = ({ item: city }: { item: City }) => (
+    <Pressable
+      onPress={() => {
+        onSelect(city);
+        onClose();
+      }}
+      className={`flex-row items-center px-4 py-4 border-b border-secondary-800 ${
+        city.id === selectedId ? "bg-primary-900/20" : "active:bg-secondary-800"
+      }`}
+    >
+      <Text className="text-2xl mr-3">{city.flag}</Text>
+      <View className="flex-1">
+        <Text className="text-base font-medium text-white">{city.name}</Text>
+        <Text className="text-sm text-secondary-400">{city.country}</Text>
+      </View>
+      {city.id === selectedId && (
+        <Ionicons name="checkmark-circle" size={24} color="#0ea5e9" />
+      )}
+    </Pressable>
+  );
+
   return (
     <Modal
       visible={visible}
       animationType="slide"
       presentationStyle="pageSheet"
     >
-      <SafeAreaView className="flex-1 bg-white dark:bg-secondary-900">
-        <View className="flex-row items-center justify-between px-4 py-3 border-b border-secondary-200 dark:border-secondary-700">
-          <Text className="text-lg font-semibold text-secondary-900 dark:text-white">
-            都市を選択
-          </Text>
+      <SafeAreaView className="flex-1 bg-secondary-900">
+        <View className="flex-row items-center justify-between px-4 py-3 border-b border-secondary-700">
+          <Text className="text-lg font-semibold text-white">都市を選択</Text>
           <Pressable onPress={onClose} className="p-2">
             <Ionicons name="close" size={24} color="#64748b" />
           </Pressable>
         </View>
-        <ScrollView>
-          {CITIES.map((city) => (
-            <Pressable
-              key={city.id}
-              onPress={() => {
-                onSelect(city);
-                onClose();
-              }}
-              className={`flex-row items-center px-4 py-4 border-b border-secondary-100 dark:border-secondary-800 ${
-                city.id === selectedId
-                  ? "bg-primary-50 dark:bg-primary-900/20"
-                  : "active:bg-secondary-50 dark:active:bg-secondary-800"
-              }`}
-            >
-              <Text className="text-2xl mr-3">{city.flag}</Text>
-              <View className="flex-1">
-                <Text className="text-base font-medium text-secondary-900 dark:text-white">
-                  {city.name}
-                </Text>
-                <Text className="text-sm text-secondary-500 dark:text-secondary-400">
-                  {city.country}
-                </Text>
-              </View>
-              {city.id === selectedId && (
-                <Ionicons name="checkmark-circle" size={24} color="#0ea5e9" />
-              )}
-            </Pressable>
-          ))}
-        </ScrollView>
+        <FlatList
+          data={CITIES}
+          renderItem={renderCity}
+          keyExtractor={(item) => item.id}
+          initialNumToRender={20}
+          maxToRenderPerBatch={10}
+          windowSize={10}
+        />
       </SafeAreaView>
     </Modal>
   );
@@ -82,11 +80,8 @@ export default function CalculatorScreen() {
   };
 
   return (
-    <SafeAreaView
-      className="flex-1 bg-secondary-50 dark:bg-secondary-900"
-      edges={["left", "right"]}
-    >
-      <ScrollView className="flex-1 px-4">
+    <SafeAreaView className="flex-1 bg-secondary-900" edges={["left", "right"]}>
+      <View className="flex-1 px-4">
         <View className="py-6">
           <Card variant="elevated" className="mb-4">
             <Pressable
@@ -96,10 +91,10 @@ export default function CalculatorScreen() {
               <View className="flex-row items-center">
                 <Text className="text-3xl mr-3">{city1.flag}</Text>
                 <View>
-                  <Text className="text-xl font-bold text-secondary-900 dark:text-white">
+                  <Text className="text-xl font-bold text-white">
                     {city1.name}
                   </Text>
-                  <Text className="text-sm text-secondary-500 dark:text-secondary-400">
+                  <Text className="text-sm text-secondary-400">
                     {city1.country}
                   </Text>
                 </View>
@@ -128,10 +123,10 @@ export default function CalculatorScreen() {
               <View className="flex-row items-center">
                 <Text className="text-3xl mr-3">{city2.flag}</Text>
                 <View>
-                  <Text className="text-xl font-bold text-secondary-900 dark:text-white">
+                  <Text className="text-xl font-bold text-white">
                     {city2.name}
                   </Text>
-                  <Text className="text-sm text-secondary-500 dark:text-secondary-400">
+                  <Text className="text-sm text-secondary-400">
                     {city2.country}
                   </Text>
                 </View>
@@ -144,23 +139,21 @@ export default function CalculatorScreen() {
           </Card>
 
           <Card variant="elevated" className="mt-6">
-            <Text className="text-center text-secondary-500 dark:text-secondary-400 mb-2">
-              時差
-            </Text>
+            <Text className="text-center text-secondary-400 mb-2">時差</Text>
             <Text className="text-center text-4xl font-bold text-primary-500">
               {timeDiff.formatted}
             </Text>
             <View className="flex-row justify-center mt-3">
               {timeDiff.isNextDay && (
-                <View className="bg-primary-100 dark:bg-primary-900/30 px-3 py-1 rounded-full">
-                  <Text className="text-primary-600 dark:text-primary-400 font-medium">
+                <View className="bg-primary-900/30 px-3 py-1 rounded-full">
+                  <Text className="text-primary-400 font-medium">
                     {city2.name}は翌日
                   </Text>
                 </View>
               )}
               {timeDiff.isPreviousDay && (
-                <View className="bg-secondary-100 dark:bg-secondary-700 px-3 py-1 rounded-full">
-                  <Text className="text-secondary-600 dark:text-secondary-400 font-medium">
+                <View className="bg-secondary-700 px-3 py-1 rounded-full">
+                  <Text className="text-secondary-400 font-medium">
                     {city2.name}は前日
                   </Text>
                 </View>
@@ -168,7 +161,7 @@ export default function CalculatorScreen() {
             </View>
           </Card>
         </View>
-      </ScrollView>
+      </View>
 
       <CitySelector
         visible={showSelector1}

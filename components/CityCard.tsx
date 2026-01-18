@@ -27,40 +27,32 @@ export function CityCard({
           <View className="flex-row items-center mb-1">
             <Text className="text-2xl mr-2">{city.flag}</Text>
             <View>
-              <Text className="text-lg font-semibold text-secondary-900 dark:text-white">
+              <Text className="text-lg font-semibold text-white">
                 {city.name}
               </Text>
-              <Text className="text-xs text-secondary-500 dark:text-secondary-400">
-                {city.country}
-              </Text>
+              <Text className="text-xs text-secondary-400">{city.country}</Text>
             </View>
           </View>
           <View className="flex-row items-center mt-2">
-            <Text className="text-xs text-secondary-400 dark:text-secondary-500">
-              {date}
-            </Text>
+            <Text className="text-xs text-secondary-500">{date}</Text>
             {timeDiff.isNextDay && (
-              <View className="ml-2 bg-primary-100 dark:bg-primary-900/30 px-2 py-0.5 rounded-full">
-                <Text className="text-xs text-primary-600 dark:text-primary-400">
-                  翌日
-                </Text>
+              <View className="ml-2 bg-primary-900/30 px-2 py-0.5 rounded-full">
+                <Text className="text-xs text-primary-400">翌日</Text>
               </View>
             )}
             {timeDiff.isPreviousDay && (
-              <View className="ml-2 bg-secondary-100 dark:bg-secondary-700 px-2 py-0.5 rounded-full">
-                <Text className="text-xs text-secondary-600 dark:text-secondary-400">
-                  前日
-                </Text>
+              <View className="ml-2 bg-secondary-700 px-2 py-0.5 rounded-full">
+                <Text className="text-xs text-secondary-400">前日</Text>
               </View>
             )}
           </View>
         </View>
 
         <View className="items-end">
-          <Text className="text-3xl font-mono font-bold text-secondary-900 dark:text-white">
+          <Text className="text-3xl font-mono font-bold text-white">
             {time}
           </Text>
-          <Text className="text-sm text-secondary-500 dark:text-secondary-400">
+          <Text className="text-sm text-secondary-400">
             {timeDiff.formatted}
           </Text>
         </View>

@@ -13,10 +13,8 @@ export function Card({
   const baseStyle = "rounded-2xl p-4";
 
   const variantStyles = {
-    default:
-      "bg-white dark:bg-secondary-800 border border-secondary-200 dark:border-secondary-700",
-    elevated:
-      "bg-white dark:bg-secondary-800 shadow-lg shadow-secondary-900/10",
+    default: "bg-secondary-800 border border-secondary-700",
+    elevated: "bg-secondary-800 shadow-lg shadow-secondary-900/10",
   };
 
   return (

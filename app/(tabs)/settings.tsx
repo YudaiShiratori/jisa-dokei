@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import {
   Alert,
+  FlatList,
   Modal,
   Pressable,
   ScrollView,
@@ -11,7 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Card } from "@/components/ui/Card";
-import { CITIES } from "@/lib/cities";
+import { CITIES, type City } from "@/lib/cities";
 import { useCitiesStore } from "@/store/cities";
 import { useSettingsStore } from "@/store/settings";
 
@@ -32,19 +33,15 @@ function SettingRow({
     <Pressable
       onPress={onPress}
       disabled={!onPress}
-      className="flex-row items-center py-4 border-b border-secondary-100 dark:border-secondary-800"
+      className="flex-row items-center py-4 border-b border-secondary-800"
     >
-      <View className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-xl items-center justify-center mr-4">
+      <View className="w-10 h-10 bg-primary-900/30 rounded-xl items-center justify-center mr-4">
         <Ionicons name={icon} size={20} color="#0ea5e9" />
       </View>
       <View className="flex-1">
-        <Text className="text-base font-medium text-secondary-900 dark:text-white">
-          {title}
-        </Text>
+        <Text className="text-base font-medium text-white">{title}</Text>
         {subtitle && (
-          <Text className="text-sm text-secondary-500 dark:text-secondary-400">
-            {subtitle}
-          </Text>
+          <Text className="text-sm text-secondary-400">{subtitle}</Text>
         )}
       </View>
       {rightElement ||
@@ -85,14 +82,34 @@ export default function SettingsScreen() {
     );
   };
 
-  return (
-    <SafeAreaView
-      className="flex-1 bg-secondary-50 dark:bg-secondary-900"
-      edges={["left", "right"]}
+  const renderTimezoneItem = ({ item: city }: { item: City }) => (
+    <Pressable
+      onPress={() => {
+        setLocalTimezone(city.timezone);
+        setShowTimezoneModal(false);
+      }}
+      className={`flex-row items-center px-4 py-4 border-b border-secondary-800 ${
+        city.timezone === localTimezone
+          ? "bg-primary-900/20"
+          : "active:bg-secondary-800"
+      }`}
     >
+      <Text className="text-2xl mr-3">{city.flag}</Text>
+      <View className="flex-1">
+        <Text className="text-base font-medium text-white">{city.name}</Text>
+        <Text className="text-sm text-secondary-400">{city.timezone}</Text>
+      </View>
+      {city.timezone === localTimezone && (
+        <Ionicons name="checkmark-circle" size={24} color="#0ea5e9" />
+      )}
+    </Pressable>
+  );
+
+  return (
+    <SafeAreaView className="flex-1 bg-secondary-900" edges={["left", "right"]}>
       <ScrollView className="flex-1 px-4">
         <View className="py-6">
-          <Text className="text-sm font-medium text-secondary-500 dark:text-secondary-400 mb-2 ml-1">
+          <Text className="text-sm font-medium text-secondary-400 mb-2 ml-1">
             時刻表示
           </Text>
           <Card variant="default" className="mb-6">
@@ -122,7 +139,7 @@ export default function SettingsScreen() {
             />
           </Card>
 
-          <Text className="text-sm font-medium text-secondary-500 dark:text-secondary-400 mb-2 ml-1">
+          <Text className="text-sm font-medium text-secondary-400 mb-2 ml-1">
             一般
           </Text>
           <Card variant="default" className="mb-6">
@@ -134,7 +151,7 @@ export default function SettingsScreen() {
             />
           </Card>
 
-          <Text className="text-sm font-medium text-secondary-500 dark:text-secondary-400 mb-2 ml-1">
+          <Text className="text-sm font-medium text-secondary-400 mb-2 ml-1">
             データ
           </Text>
           <Card variant="default">
@@ -147,9 +164,7 @@ export default function SettingsScreen() {
           </Card>
 
           <View className="items-center mt-8">
-            <Text className="text-secondary-400 dark:text-secondary-500 text-sm">
-              時差時計 v1.0.0
-            </Text>
+            <Text className="text-secondary-500 text-sm">時差時計 v1.0.0</Text>
           </View>
         </View>
       </ScrollView>
@@ -159,9 +174,9 @@ export default function SettingsScreen() {
         animationType="slide"
         presentationStyle="pageSheet"
       >
-        <SafeAreaView className="flex-1 bg-white dark:bg-secondary-900">
-          <View className="flex-row items-center justify-between px-4 py-3 border-b border-secondary-200 dark:border-secondary-700">
-            <Text className="text-lg font-semibold text-secondary-900 dark:text-white">
+        <SafeAreaView className="flex-1 bg-secondary-900">
+          <View className="flex-row items-center justify-between px-4 py-3 border-b border-secondary-700">
+            <Text className="text-lg font-semibold text-white">
               タイムゾーン
             </Text>
             <Pressable
@@ -171,35 +186,14 @@ export default function SettingsScreen() {
               <Ionicons name="close" size={24} color="#64748b" />
             </Pressable>
           </View>
-          <ScrollView>
-            {CITIES.map((city) => (
-              <Pressable
-                key={city.id}
-                onPress={() => {
-                  setLocalTimezone(city.timezone);
-                  setShowTimezoneModal(false);
-                }}
-                className={`flex-row items-center px-4 py-4 border-b border-secondary-100 dark:border-secondary-800 ${
-                  city.timezone === localTimezone
-                    ? "bg-primary-50 dark:bg-primary-900/20"
-                    : "active:bg-secondary-50 dark:active:bg-secondary-800"
-                }`}
-              >
-                <Text className="text-2xl mr-3">{city.flag}</Text>
-                <View className="flex-1">
-                  <Text className="text-base font-medium text-secondary-900 dark:text-white">
-                    {city.name}
-                  </Text>
-                  <Text className="text-sm text-secondary-500 dark:text-secondary-400">
-                    {city.timezone}
-                  </Text>
-                </View>
-                {city.timezone === localTimezone && (
-                  <Ionicons name="checkmark-circle" size={24} color="#0ea5e9" />
-                )}
-              </Pressable>
-            ))}
-          </ScrollView>
+          <FlatList
+            data={CITIES}
+            renderItem={renderTimezoneItem}
+            keyExtractor={(item) => item.id}
+            initialNumToRender={20}
+            maxToRenderPerBatch={10}
+            windowSize={10}
+          />
         </SafeAreaView>
       </Modal>
     </SafeAreaView>

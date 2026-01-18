@@ -12,22 +12,15 @@ export default function HomeScreen() {
   const { localTimezone } = useSettingsStore();
 
   return (
-    <SafeAreaView
-      className="flex-1 bg-secondary-50 dark:bg-secondary-900"
-      edges={["left", "right"]}
-    >
+    <SafeAreaView className="flex-1 bg-secondary-900" edges={["left", "right"]}>
       <ScrollView className="flex-1 px-4">
-        <View className="py-6 items-center border-b border-secondary-200 dark:border-secondary-700 mb-6">
-          <Text className="text-secondary-500 dark:text-secondary-400 text-sm mb-2">
-            現在の時刻
-          </Text>
+        <View className="py-6 items-center border-b border-secondary-700 mb-6">
+          <Text className="text-secondary-400 text-sm mb-2">現在の時刻</Text>
           <DigitalClock timezone={localTimezone} size="xl" />
         </View>
 
         <View className="flex-row items-center justify-between mb-4">
-          <Text className="text-lg font-semibold text-secondary-900 dark:text-white">
-            世界の都市
-          </Text>
+          <Text className="text-lg font-semibold text-white">世界の都市</Text>
           <Link href="/add-city" asChild>
             <Pressable className="flex-row items-center bg-primary-500 px-4 py-2 rounded-full active:opacity-80">
               <Ionicons name="add" size={20} color="white" />
@@ -39,7 +32,7 @@ export default function HomeScreen() {
         {cities.length === 0 ? (
           <View className="items-center py-12">
             <Ionicons name="globe-outline" size={48} color="#94a3b8" />
-            <Text className="text-secondary-500 dark:text-secondary-400 mt-4 text-center">
+            <Text className="text-secondary-400 mt-4 text-center">
               都市が追加されていません{"\n"}「追加」ボタンをタップして{"\n"}
               都市を追加してください
             </Text>
