@@ -8,7 +8,12 @@
 |---------|------|
 | `app-description-ja.md` | 日本語アプリ説明文 |
 | `app-description-en.md` | 英語アプリ説明文 |
-| `privacy-policy.md` | プライバシーポリシー（日英） |
+
+## プライバシーポリシー
+
+`docs/privacy-policy.html` に配置（GitHub Pages で公開）
+
+**URL**: https://yudaishiratori.github.io/jisa-dokei/privacy-policy.html
 
 ## アイコン・画像
 
