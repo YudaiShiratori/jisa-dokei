@@ -9,7 +9,7 @@ World time at a glance
 ## Description
 
 ### Short Description (80 characters max)
-Check current time and time differences for cities worldwide. Perfect for international communication.
+Check time & time differences for 463 cities worldwide. Free, offline, no ads.
 
 ### Full Description
 
