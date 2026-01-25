@@ -39,3 +39,7 @@
 ## Feature Graphic (Android)
 
 Google Play用のFeature Graphicは 1024 x 500 ピクセルで作成してください。
+
+| ファイル | サイズ | 用途 |
+|---------|-------|------|
+| `graphics/feature-graphic.png` | 1024x500 | Google Play フィーチャーグラフィック |
