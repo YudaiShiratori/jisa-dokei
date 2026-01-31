@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { DigitalClock } from "@/components/DigitalClock";
 import { Card } from "@/components/ui/Card";
 import { useTimeDifference } from "@/hooks/use-clock";
-import { getTimeDiffColorClass } from "@/lib/colors";
+import { getTimeDiffColor } from "@/lib/colors";
 import { useCalculatorStore } from "@/store/calculator";
 
 export default function CalculatorScreen() {
@@ -94,7 +94,10 @@ export default function CalculatorScreen() {
           <Card variant="elevated" className="mt-6">
             <Text className="text-center text-secondary-300 mb-2">時差</Text>
             <Text
-              className={`text-center text-4xl font-bold ${getTimeDiffColorClass(timeDiff.hours, timeDiff.minutes)}`}
+              className="text-center text-4xl font-bold"
+              style={{
+                color: getTimeDiffColor(timeDiff.hours, timeDiff.minutes),
+              }}
             >
               {timeDiff.formatted}
             </Text>
