@@ -6,7 +6,7 @@ on:
       track:
         description: 'Release track'
         required: true
-        default: 'alpha'
+        default: 'internal'
         type: choice
         options:
           - internal
