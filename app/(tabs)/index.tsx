@@ -24,11 +24,12 @@ export default function HomeScreen() {
   return (
     <SafeAreaView className="flex-1 bg-secondary-900" edges={["left", "right"]}>
       <ScrollView className="flex-1 px-4">
-        <View className="py-8 items-center border-b border-secondary-700 mb-8">
-          <Text className="text-secondary-300 text-xs uppercase tracking-wider mb-2">
-            現在の時刻
-          </Text>
-          <DigitalClock timezone={localTimezone} size="xl" />
+        <View className="py-6 items-center border-b border-secondary-700 mb-6">
+          <DigitalClock
+            timezone={localTimezone}
+            size="xl"
+            showUtcOffset={false}
+          />
         </View>
 
         <View className="flex-row items-center justify-between mb-4">

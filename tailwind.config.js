@@ -31,6 +31,13 @@ module.exports = {
           900: "#0f172a",
           950: "#020617",
         },
+        // 時差表示用の色（プラス=緑、マイナス=赤）
+        emerald: {
+          400: "#34d399",
+        },
+        rose: {
+          400: "#fb7185",
+        },
       },
       fontFamily: {
         mono: ["SpaceMono", "monospace"],
