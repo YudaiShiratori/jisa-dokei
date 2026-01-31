@@ -31,6 +31,12 @@ module.exports = {
           900: "#0f172a",
           950: "#020617",
         },
+        emerald: {
+          400: "#34d399",
+        },
+        rose: {
+          400: "#fb7185",
+        },
       },
       fontFamily: {
         mono: ["SpaceMono", "monospace"],

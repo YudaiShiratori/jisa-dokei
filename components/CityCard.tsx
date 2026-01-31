@@ -64,11 +64,17 @@ export const CityCard = memo(function CityCard({
           <Text className="text-4xl font-mono font-bold text-white">
             {time}
           </Text>
-          <View className="flex-row items-center mt-1">
-            <Text className="text-base font-medium text-primary-400">
-              {timeDiff.formatted}
-            </Text>
-          </View>
+          <Text
+            className={`text-base font-medium mt-1 ${
+              timeDiff.hours > 0
+                ? "text-emerald-400"
+                : timeDiff.hours < 0
+                  ? "text-rose-400"
+                  : "text-secondary-400"
+            }`}
+          >
+            {timeDiff.formatted}
+          </Text>
         </View>
 
         {showRemoveButton && onRemove && (

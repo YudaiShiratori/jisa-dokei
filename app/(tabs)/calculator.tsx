@@ -92,7 +92,15 @@ export default function CalculatorScreen() {
 
           <Card variant="elevated" className="mt-6">
             <Text className="text-center text-secondary-300 mb-2">時差</Text>
-            <Text className="text-center text-4xl font-bold text-primary-500">
+            <Text
+              className={`text-center text-4xl font-bold ${
+                timeDiff.hours > 0
+                  ? "text-emerald-400"
+                  : timeDiff.hours < 0
+                    ? "text-rose-400"
+                    : "text-secondary-400"
+              }`}
+            >
               {timeDiff.formatted}
             </Text>
             <View className="flex-row justify-center mt-3">
