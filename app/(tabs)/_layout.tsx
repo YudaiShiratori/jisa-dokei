@@ -52,9 +52,9 @@ export default function TabLayout() {
           backgroundColor: TAB_BAR_BACKGROUND,
           borderTopColor: "#334155",
           borderTopWidth: 1,
-          paddingTop: 8,
-          paddingBottom: Platform.OS === "ios" ? 28 : 12,
-          height: Platform.OS === "ios" ? 88 : 64,
+          paddingTop: 12,
+          paddingBottom: Platform.OS === "ios" ? 32 : 20,
+          height: Platform.OS === "ios" ? 100 : 96,
         },
         tabBarLabelStyle: {
           fontSize: 11,

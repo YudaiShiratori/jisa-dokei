@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getTimeDiffColorClass } from "@/lib/colors";
+import { getTimeDiffColor, getTimeDiffColorClass } from "@/lib/colors";
 
 describe("getTimeDiffColorClass", () => {
   it("Given プラス時差 When 判定する Then 緑色を返す", () => {
@@ -33,5 +33,29 @@ describe("getTimeDiffColorClass", () => {
     expect(getTimeDiffColorClass(1, 30)).toBe("text-emerald-400");
     // -1:30 → 赤
     expect(getTimeDiffColorClass(-1, -30)).toBe("text-rose-400");
+  });
+});
+
+describe("getTimeDiffColor", () => {
+  it("Given プラス時差 When 判定する Then 緑色コードを返す", () => {
+    expect(getTimeDiffColor(1)).toBe("#34d399");
+    expect(getTimeDiffColor(9)).toBe("#34d399");
+  });
+
+  it("Given マイナス時差 When 判定する Then 赤色コードを返す", () => {
+    expect(getTimeDiffColor(-1)).toBe("#fb7185");
+    expect(getTimeDiffColor(-12)).toBe("#fb7185");
+  });
+
+  it("Given 時差がゼロ When 判定する Then グレーコードを返す", () => {
+    expect(getTimeDiffColor(0)).toBe("#94a3b8");
+  });
+
+  it("Given プラス分オフセット When 時間がゼロ Then 緑色コードを返す", () => {
+    expect(getTimeDiffColor(0, 30)).toBe("#34d399");
+  });
+
+  it("Given マイナス分オフセット When 時間がゼロ Then 赤色コードを返す", () => {
+    expect(getTimeDiffColor(0, -30)).toBe("#fb7185");
   });
 });

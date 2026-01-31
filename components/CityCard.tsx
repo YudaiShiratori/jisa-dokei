@@ -2,10 +2,29 @@ import { Ionicons } from "@expo/vector-icons";
 import { memo } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useClock, useTimeDifference } from "@/hooks/use-clock";
-import { getTimeDiffColorClass } from "@/lib/colors";
+import { getTimeDiffColor } from "@/lib/colors";
 import { useSettingsStore } from "@/store/settings";
 import type { UserCity } from "@/types";
 import { Card } from "./ui/Card";
+
+interface TimeDiffTextProps {
+  hours: number;
+  minutes: number;
+  formatted: string;
+}
+
+const TimeDiffText = memo(function TimeDiffText({
+  hours,
+  minutes,
+  formatted,
+}: TimeDiffTextProps) {
+  const color = getTimeDiffColor(hours, minutes);
+  return (
+    <Text className="text-base font-medium mt-1" style={{ color }}>
+      {formatted}
+    </Text>
+  );
+});
 
 interface CityCardProps {
   city: UserCity;
@@ -65,11 +84,11 @@ export const CityCard = memo(function CityCard({
           <Text className="text-4xl font-mono font-bold text-white">
             {time}
           </Text>
-          <Text
-            className={`text-base font-medium mt-1 ${getTimeDiffColorClass(timeDiff.hours, timeDiff.minutes)}`}
-          >
-            {timeDiff.formatted}
-          </Text>
+          <TimeDiffText
+            hours={timeDiff.hours}
+            minutes={timeDiff.minutes}
+            formatted={timeDiff.formatted}
+          />
         </View>
 
         {showRemoveButton && onRemove && (
