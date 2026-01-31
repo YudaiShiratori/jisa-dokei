@@ -66,7 +66,7 @@ export const CityCard = memo(function CityCard({
             {time}
           </Text>
           <Text
-            className={`text-base font-medium mt-1 ${getTimeDiffColorClass(timeDiff.hours)}`}
+            className={`text-base font-medium mt-1 ${getTimeDiffColorClass(timeDiff.hours, timeDiff.minutes)}`}
           >
             {timeDiff.formatted}
           </Text>

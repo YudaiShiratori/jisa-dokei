@@ -94,7 +94,7 @@ export default function CalculatorScreen() {
           <Card variant="elevated" className="mt-6">
             <Text className="text-center text-secondary-300 mb-2">時差</Text>
             <Text
-              className={`text-center text-4xl font-bold ${getTimeDiffColorClass(timeDiff.hours)}`}
+              className={`text-center text-4xl font-bold ${getTimeDiffColorClass(timeDiff.hours, timeDiff.minutes)}`}
             >
               {timeDiff.formatted}
             </Text>
