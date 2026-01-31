@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { memo } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useClock, useTimeDifference } from "@/hooks/use-clock";
+import { getTimeDiffColorClass } from "@/lib/colors";
 import { useSettingsStore } from "@/store/settings";
 import type { UserCity } from "@/types";
 import { Card } from "./ui/Card";
@@ -65,13 +66,7 @@ export const CityCard = memo(function CityCard({
             {time}
           </Text>
           <Text
-            className={`text-base font-medium mt-1 ${
-              timeDiff.hours > 0
-                ? "text-emerald-400"
-                : timeDiff.hours < 0
-                  ? "text-rose-400"
-                  : "text-secondary-400"
-            }`}
+            className={`text-base font-medium mt-1 ${getTimeDiffColorClass(timeDiff.hours)}`}
           >
             {timeDiff.formatted}
           </Text>
