@@ -1,0 +1,72 @@
+name: Deploy to Google Play
+
+on:
+  workflow_dispatch:
+    inputs:
+      track:
+        description: 'Release track'
+        required: true
+        default: 'alpha'
+        type: choice
+        options:
+          - internal
+          - alpha
+          - beta
+          - production
+      skip_build:
+        description: 'Skip EAS build (use latest)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Android (EAS)
+        if: ${{ !inputs.skip_build }}
+        run: eas build -p android --profile production --non-interactive --wait
+
+      - name: Download AAB from EAS
+        run: |
+          BUILD_URL=$(eas build:list -p android --limit 1 --non-interactive --json | jq -r '.[0].artifacts.buildUrl')
+          curl -L -o app.aab "$BUILD_URL"
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Install Fastlane
+        run: gem install fastlane
+
+      - name: Setup Google Play credentials
+        run: |
+          echo "${{ secrets.GOOGLE_PLAY_JSON_KEY }}" | base64 -d > fastlane/google-play-key.json
+
+      - name: Deploy to Google Play
+        run: fastlane android deploy track:${{ inputs.track }} aab:app.aab
+        env:
+          GOOGLE_PLAY_JSON_KEY_PATH: fastlane/google-play-key.json
+
+      - name: Cleanup credentials
+        if: always()
+        run: rm -f fastlane/google-play-key.json

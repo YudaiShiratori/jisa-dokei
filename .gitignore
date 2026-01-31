@@ -83,3 +83,8 @@ expo-env.d.ts
 # @end expo-cli
 
 .serena/
+
+# Fastlane
+fastlane/google-play-key.json
+fastlane/report.xml
+Gemfile.lock
