@@ -9,11 +9,11 @@ World time at a glance
 ## Description
 
 ### Short Description (80 characters max)
-Check time & time differences for 463 cities worldwide. Free, offline, no ads.
+Check time & time differences for cities worldwide. Free, offline, no ads.
 
 ### Full Description
 
-A beautiful time zone clock app that shows real-time local time for 463 cities around the world.
+A beautiful time zone clock app that shows real-time local time for cities around the world.
 
 KEY FEATURES
 • World Clock: Add your favorite cities and view their local times at a glance
