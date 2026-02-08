@@ -85,7 +85,7 @@ Expected: PASS
 git add tests/path/test.py src/path/file.py
 git commit -m "feat: add specific feature"
 ```
-```
+```text
 
 ## Remember
 - Exact file paths always
