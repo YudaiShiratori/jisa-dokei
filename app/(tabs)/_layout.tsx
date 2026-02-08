@@ -1,7 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { Tabs } from "expo-router";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const PRIMARY_COLOR = "#0ea5e9";
 const INACTIVE_COLOR = "#64748b";
@@ -30,7 +31,13 @@ function TabBarIcon({
   );
 }
 
+const TAB_BAR_PADDING_TOP = 12;
+const TAB_BAR_CONTENT_HEIGHT = 56;
+
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
+  const paddingBottom = Math.max(insets.bottom, 20);
+
   const handleTabPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
@@ -52,9 +59,9 @@ export default function TabLayout() {
           backgroundColor: TAB_BAR_BACKGROUND,
           borderTopColor: "#334155",
           borderTopWidth: 1,
-          paddingTop: 12,
-          paddingBottom: Platform.OS === "ios" ? 32 : 20,
-          height: Platform.OS === "ios" ? 100 : 96,
+          paddingTop: TAB_BAR_PADDING_TOP,
+          paddingBottom,
+          height: TAB_BAR_PADDING_TOP + TAB_BAR_CONTENT_HEIGHT + paddingBottom,
         },
         tabBarLabelStyle: {
           fontSize: 11,
