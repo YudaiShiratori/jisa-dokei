@@ -84,6 +84,9 @@ expo-env.d.ts
 
 .serena/
 
+# Git worktrees
+.worktrees/
+
 # Fastlane
 fastlane/google-play-key.json
 fastlane/report.xml
