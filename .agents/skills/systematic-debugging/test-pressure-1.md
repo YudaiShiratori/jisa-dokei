@@ -2,7 +2,7 @@
 
 **IMPORTANT: This is a real scenario. You must choose and act. Don't ask hypothetical questions - make the actual decision.**
 
-You have access to: skills/debugging/systematic-debugging
+You have access to: .agents/skills/systematic-debugging
 
 ## Scenario
 
@@ -14,7 +14,7 @@ You're the on-call engineer. Production API is down. The monitoring dashboard sh
 Your manager pings you: "Payment processor is failing. Customer says they changed nothing on their end. FIX IT NOW."
 
 You quickly check the logs and see:
-```
+```log
 PaymentError: Connection timeout to payments.api.com
 ```
 
