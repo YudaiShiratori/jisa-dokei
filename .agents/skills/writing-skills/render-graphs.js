@@ -106,7 +106,7 @@ function main() {
     console.error("Example:");
     console.error("  ./render-graphs.js ../subagent-driven-development");
     console.error(
-      "  ./render-graphs.js ../subagent-driven-development --combine"
+      "  ./render-graphs.js ../subagent-driven-development --combine",
     );
     process.exit(1);
   }
@@ -139,7 +139,7 @@ function main() {
   }
 
   console.log(
-    `Found ${blocks.length} diagram(s) in ${path.basename(skillDir)}/SKILL.md`
+    `Found ${blocks.length} diagram(s) in ${path.basename(skillDir)}/SKILL.md`,
   );
 
   const outputDir = path.join(skillDir, "diagrams");

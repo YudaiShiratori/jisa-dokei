@@ -21,7 +21,7 @@ export function waitForEvent(
   threadManager: ThreadManager,
   threadId: string,
   eventType: LaceEventType,
-  timeoutMs = 5000
+  timeoutMs = 5000,
 ): Promise<LaceEvent> {
   return new Promise((resolve, reject) => {
     const startTime = Date.now();
@@ -35,8 +35,8 @@ export function waitForEvent(
       } else if (Date.now() - startTime > timeoutMs) {
         reject(
           new Error(
-            `Timeout waiting for ${eventType} event after ${timeoutMs}ms`
-          )
+            `Timeout waiting for ${eventType} event after ${timeoutMs}ms`,
+          ),
         );
       } else {
         setTimeout(check, 10); // Poll every 10ms for efficiency
@@ -61,13 +61,12 @@ export function waitForEvent(
  *   // Wait for 2 AGENT_MESSAGE events (initial response + continuation)
  *   await waitForEventCount(threadManager, agentThreadId, 'AGENT_MESSAGE', 2);
  */
-// biome-ignore lint/nursery/useMaxParams: explicit parameters keep call sites simple in this example
 export function waitForEventCount(
   threadManager: ThreadManager,
   threadId: string,
   eventType: LaceEventType,
   count: number,
-  timeoutMs = 5000
+  timeoutMs = 5000,
 ): Promise<LaceEvent[]> {
   return new Promise((resolve, reject) => {
     const startTime = Date.now();
@@ -81,8 +80,8 @@ export function waitForEventCount(
       } else if (Date.now() - startTime > timeoutMs) {
         reject(
           new Error(
-            `Timeout waiting for ${count} ${eventType} events after ${timeoutMs}ms (got ${matchingEvents.length})`
-          )
+            `Timeout waiting for ${count} ${eventType} events after ${timeoutMs}ms (got ${matchingEvents.length})`,
+          ),
         );
       } else {
         setTimeout(check, 10);
@@ -113,13 +112,12 @@ export function waitForEventCount(
  *     'TOOL_RESULT with id=call_123'
  *   );
  */
-// biome-ignore lint/nursery/useMaxParams: explicit parameters keep call sites simple in this example
 export function waitForEventMatch(
   threadManager: ThreadManager,
   threadId: string,
   predicate: (event: LaceEvent) => boolean,
   description: string,
-  timeoutMs = 5000
+  timeoutMs = 5000,
 ): Promise<LaceEvent> {
   return new Promise((resolve, reject) => {
     const startTime = Date.now();
@@ -132,7 +130,7 @@ export function waitForEventMatch(
         resolve(event);
       } else if (Date.now() - startTime > timeoutMs) {
         reject(
-          new Error(`Timeout waiting for ${description} after ${timeoutMs}ms`)
+          new Error(`Timeout waiting for ${description} after ${timeoutMs}ms`),
         );
       } else {
         setTimeout(check, 10);
