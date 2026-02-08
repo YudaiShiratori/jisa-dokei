@@ -19,7 +19,6 @@ describe("useSettingsStore", () => {
     const state = useSettingsStore.getState();
 
     expect(state.timeFormat.use24Hour).toBe(true);
-    expect(state.timeFormat.showSeconds).toBe(false);
     expect(state.localTimezone).toBe("Asia/Tokyo");
   });
 
@@ -37,20 +36,6 @@ describe("useSettingsStore", () => {
     expect(useSettingsStore.getState().timeFormat.use24Hour).toBe(true);
   });
 
-  it("should toggle show seconds", async () => {
-    const { useSettingsStore } = await import("@/store/settings");
-
-    expect(useSettingsStore.getState().timeFormat.showSeconds).toBe(false);
-
-    useSettingsStore.getState().toggleShowSeconds();
-
-    expect(useSettingsStore.getState().timeFormat.showSeconds).toBe(true);
-
-    useSettingsStore.getState().toggleShowSeconds();
-
-    expect(useSettingsStore.getState().timeFormat.showSeconds).toBe(false);
-  });
-
   it("should set local timezone", async () => {
     const { useSettingsStore } = await import("@/store/settings");
 
@@ -64,10 +49,8 @@ describe("useSettingsStore", () => {
 
     useSettingsStore.getState().setTimeFormat({
       use24Hour: false,
-      showSeconds: true,
     });
 
     expect(useSettingsStore.getState().timeFormat.use24Hour).toBe(false);
-    expect(useSettingsStore.getState().timeFormat.showSeconds).toBe(true);
   });
 });

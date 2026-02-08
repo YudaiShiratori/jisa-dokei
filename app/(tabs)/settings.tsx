@@ -61,13 +61,8 @@ function SettingRow({
 }
 
 export default function SettingsScreen() {
-  const {
-    timeFormat,
-    localTimezone,
-    toggle24Hour,
-    toggleShowSeconds,
-    setLocalTimezone,
-  } = useSettingsStore();
+  const { timeFormat, localTimezone, toggle24Hour, setLocalTimezone } =
+    useSettingsStore();
   const { clearAllCities } = useCitiesStore();
 
   const [showTimezoneModal, setShowTimezoneModal] = useState(false);
@@ -78,11 +73,6 @@ export default function SettingsScreen() {
   const handleToggle24Hour = () => {
     triggerLight();
     toggle24Hour();
-  };
-
-  const handleToggleShowSeconds = () => {
-    triggerLight();
-    toggleShowSeconds();
   };
 
   const handleClearCities = () => {
@@ -149,20 +139,6 @@ export default function SettingsScreen() {
                   trackColor={{ false: "#cbd5e1", true: "#0ea5e9" }}
                   accessibilityLabel="24時間表示"
                   accessibilityState={{ checked: timeFormat.use24Hour }}
-                />
-              }
-            />
-            <SettingRow
-              icon="timer-outline"
-              title="秒を表示"
-              subtitle={timeFormat.showSeconds ? "表示する" : "表示しない"}
-              rightElement={
-                <Switch
-                  value={timeFormat.showSeconds}
-                  onValueChange={handleToggleShowSeconds}
-                  trackColor={{ false: "#cbd5e1", true: "#0ea5e9" }}
-                  accessibilityLabel="秒を表示"
-                  accessibilityState={{ checked: timeFormat.showSeconds }}
                 />
               }
             />

@@ -22,16 +22,9 @@ interface ClockState {
 export function getClockState(
   timezone: string,
   use24Hour: boolean,
-  showSeconds: boolean,
   date?: Date,
 ): ClockState {
-  const formatStr = use24Hour
-    ? showSeconds
-      ? "HH:mm:ss"
-      : "HH:mm"
-    : showSeconds
-      ? "h:mm:ss a"
-      : "h:mm a";
+  const formatStr = use24Hour ? "HH:mm" : "h:mm a";
 
   return {
     time: formatTimeInTimezone(timezone, formatStr, date),
@@ -43,14 +36,14 @@ export function getClockState(
 export function useClock(timezone: string) {
   const { timeFormat } = useSettingsStore();
   const [state, setState] = useState<ClockState>(() =>
-    getClockState(timezone, timeFormat.use24Hour, timeFormat.showSeconds),
+    getClockState(timezone, timeFormat.use24Hour),
   );
 
   const updateClockState = useCallback(
     (tz: string): ClockState => {
-      return getClockState(tz, timeFormat.use24Hour, timeFormat.showSeconds);
+      return getClockState(tz, timeFormat.use24Hour);
     },
-    [timeFormat.use24Hour, timeFormat.showSeconds],
+    [timeFormat.use24Hour],
   );
 
   useEffect(() => {

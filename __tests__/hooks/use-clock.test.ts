@@ -5,7 +5,6 @@ vi.mock("@/store/settings", () => ({
   useSettingsStore: () => ({
     timeFormat: {
       use24Hour: true,
-      showSeconds: false,
     },
   }),
 }));
@@ -26,7 +25,7 @@ describe("getClockState helper", () => {
     const { getClockState } = await import("@/hooks/use-clock");
     const fixedDate = new Date("2024-01-15T12:00:00Z");
 
-    const state = getClockState("Asia/Tokyo", true, false, fixedDate);
+    const state = getClockState("Asia/Tokyo", true, fixedDate);
 
     // Tokyo is UTC+9, so 12:00 UTC = 21:00 Tokyo
     expect(state.time).toBe("21:00");
@@ -37,18 +36,9 @@ describe("getClockState helper", () => {
     const { getClockState } = await import("@/hooks/use-clock");
     const fixedDate = new Date("2024-01-15T12:00:00Z");
 
-    const state = getClockState("Asia/Tokyo", false, false, fixedDate);
+    const state = getClockState("Asia/Tokyo", false, fixedDate);
 
     // 21:00 in 12-hour format = 9:00 PM
     expect(state.time).toBe("9:00 PM");
-  });
-
-  it("should show seconds when showSeconds is true", async () => {
-    const { getClockState } = await import("@/hooks/use-clock");
-    const fixedDate = new Date("2024-01-15T12:00:00Z");
-
-    const state = getClockState("Asia/Tokyo", true, true, fixedDate);
-
-    expect(state.time).toBe("21:00:00");
   });
 });

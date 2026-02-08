@@ -7,13 +7,11 @@ interface SettingsState extends AppSettings {
   setTimeFormat: (format: TimeFormat) => void;
   setLocalTimezone: (timezone: string) => void;
   toggle24Hour: () => void;
-  toggleShowSeconds: () => void;
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
   timeFormat: {
     use24Hour: true,
-    showSeconds: false,
   },
   localTimezone: "Asia/Tokyo",
 };
@@ -36,15 +34,6 @@ export const useSettingsStore = create<SettingsState>()(
           timeFormat: {
             ...state.timeFormat,
             use24Hour: !state.timeFormat.use24Hour,
-          },
-        }));
-      },
-
-      toggleShowSeconds: () => {
-        set((state) => ({
-          timeFormat: {
-            ...state.timeFormat,
-            showSeconds: !state.timeFormat.showSeconds,
           },
         }));
       },

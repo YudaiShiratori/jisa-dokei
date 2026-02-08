@@ -7,7 +7,6 @@ export interface UserCity extends City {
 
 export interface TimeFormat {
   use24Hour: boolean;
-  showSeconds: boolean;
 }
 
 export interface AppSettings {

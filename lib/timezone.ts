@@ -13,7 +13,7 @@ export function getTimeInTimezone(timezone: string, date = new Date()): TZDate {
 
 export function formatTimeInTimezone(
   timezone: string,
-  formatStr = "HH:mm:ss",
+  formatStr = "HH:mm",
   date = new Date(),
 ): string {
   const tzDate = getTimeInTimezone(timezone, date);
