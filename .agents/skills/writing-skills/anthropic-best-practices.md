@@ -254,7 +254,7 @@ As your Skill grows, you can bundle additional content that Claude loads only wh
 
 The complete Skill directory structure might look like this:
 
-```
+```text
 pdf/
 ├── SKILL.md              # Main instructions (loaded when triggered)
 ├── FORMS.md              # Form-filling guide (loaded as needed)
@@ -306,7 +306,7 @@ bigquery-skill/
     ├── sales.md (opportunities, pipeline)
     ├── product.md (API usage, features)
     └── marketing.md (campaigns, attribution)
-```
+```text
 
 ````markdown SKILL.md theme={null}
 # BigQuery Data Analysis
@@ -427,7 +427,7 @@ Research Progress:
 - [ ] Step 3: Cross-reference claims
 - [ ] Step 4: Create structured summary
 - [ ] Step 5: Verify citations
-```
+```text
 
 **Step 1: Read all source documents**
 
@@ -469,7 +469,7 @@ Task Progress:
 - [ ] Step 3: Validate mapping (run validate_fields.py)
 - [ ] Step 4: Fill the form (run fill_form.py)
 - [ ] Step 5: Verify output (run verify_output.py)
-```
+```text
 
 **Step 1: Analyze the form**
 
@@ -664,7 +664,7 @@ Output:
 feat(auth): implement JWT-based authentication
 
 Add login endpoint and token validation middleware
-```
+```text
 
 **Example 2:**
 Input: Fixed bug where dates displayed incorrectly in reports
@@ -673,7 +673,7 @@ Output:
 fix(reports): correct date formatting in timezone conversion
 
 Use UTC timestamps consistently across report generation
-```
+```text
 
 **Example 3:**
 Input: Updated dependencies and refactored error handling
@@ -683,7 +683,7 @@ chore: update dependencies and refactor error handling
 
 - Upgrade lodash to 4.17.21
 - Standardize error response format across endpoints
-```
+```text
 
 Follow this style: type(scope): brief description, then detailed explanation.
 ````
@@ -1044,7 +1044,7 @@ bigquery-skill/
     ├── finance.md (revenue metrics)
     ├── sales.md (pipeline data)
     └── product.md (usage analytics)
-```
+```text
 
 When the user asks about revenue, Claude reads SKILL.md, sees the reference to `reference/finance.md`, and invokes bash to read just that file. The sales.md and product.md files remain on the filesystem, consuming zero context tokens until needed. This filesystem-based model is what enables progressive disclosure. Claude can navigate and selectively load exactly what each task requires.
 

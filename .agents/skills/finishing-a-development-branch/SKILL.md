@@ -25,7 +25,7 @@ npm test / cargo test / pytest / go test ./...
 ```
 
 **If tests fail:**
-```
+```text
 Tests failing (<N> failures). Must fix before completing:
 
 [Show failures]
@@ -50,7 +50,7 @@ Or ask: "This branch split from main - is that correct?"
 
 Present exactly these 4 options:
 
-```
+```text
 Implementation complete. What would you like to do?
 
 1. Merge back to <base-branch> locally
@@ -114,7 +114,7 @@ Report: "Keeping branch <name>. Worktree preserved at <path>."
 #### Option 4: Discard
 
 **Confirm first:**
-```
+```text
 This will permanently delete:
 - Branch <name>
 - All commits: <commit-list>

@@ -72,7 +72,7 @@ API docs, syntax guides, tool documentation (office docs)
 ## Directory Structure
 
 
-```
+```text
 skills/
   skill-name/
     SKILL.md              # Main reference (required)
@@ -347,14 +347,14 @@ You're good at porting - one great example is enough.
 ## File Organization
 
 ### Self-Contained Skill
-```
+```text
 defense-in-depth/
   SKILL.md    # Everything inline
 ```
 When: All content fits, no heavy reference needed
 
 ### Skill with Reusable Tool
-```
+```text
 condition-based-waiting/
   SKILL.md    # Overview + patterns
   example.ts  # Working helpers to adapt
@@ -362,7 +362,7 @@ condition-based-waiting/
 When: Tool is reusable code, not just narrative
 
 ### Skill with Heavy Reference
-```
+```text
 pptx/
   SKILL.md       # Overview + workflows
   pptxgenjs.md   # 600 lines API reference
@@ -373,7 +373,7 @@ When: Reference material too large for inline
 
 ## The Iron Law (Same as TDD)
 
-```
+```text
 NO SKILL WITHOUT A FAILING TEST FIRST
 ```
 
