@@ -1,20 +1,28 @@
-A beautiful time zone clock app that shows real-time local time for 463 cities around the world.
+"What time is it over there right now?"
 
-KEY FEATURES
-• World Clock: Add your favorite cities and view their local times at a glance
-• Time Difference Calculator: Instantly calculate time differences between two cities
-• Intuitive UI: Dark theme design that's easy on your eyes
+Time Zone Clock lets you quickly check local times and time differences for cities around the world.
 
-PERFECT FOR
-• Staying in touch with friends and family abroad
-• Frequent international travelers
-• International business professionals
-• Checking times for overseas events and broadcasts
+▸ World Clock
+Just add the cities you care about. Their local times and time differences appear on your home screen, updated in real time. London, New York, Sydney — see them all at a glance.
 
-COVERAGE
-Supports 463 major cities across Asia, Europe, North America, South America, Africa, and Oceania.
+▸ Time Difference Calculator
+Pick two cities, get the time difference instantly. No mental math, no Googling — just a clear answer.
 
-HIGHLIGHTS
-• Completely free with no ads
-• Works offline
-• Privacy-focused (no data collection)
+▸ Easy City Search
+Search in English or Japanese. Covers major cities across Asia, Europe, North America, South America, Africa, and Oceania.
+
+────────────────
+
+Who it's for
+• Business travelers and frequent flyers
+• Catching overseas live streams, sports, and events
+• Remote workers collaborating across time zones
+• Students studying abroad who want to check the time back home
+
+────────────────
+
+Why people choose Time Zone Clock
+✓ Completely free — no in-app purchases, no ads, ever
+✓ Works offline — use it on a plane, anywhere
+✓ Privacy first — zero data collection, zero tracking
+✓ Lightweight & fast — simple design focused on what you need
